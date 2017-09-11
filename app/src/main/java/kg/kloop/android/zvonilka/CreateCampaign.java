@@ -8,12 +8,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class CreateCampaign extends AppCompatActivity {
 
     EditText titleEditText;
     EditText descriptionEditText;
     String title;
     String description;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,9 @@ public class CreateCampaign extends AppCompatActivity {
 
         titleEditText = (EditText)findViewById(R.id.title_edit_text);
         descriptionEditText = (EditText)findViewById(R.id.description_edit_text);
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference().child("Companies").child("TestCompany").child("Campaigns");
 
     }
 
@@ -44,6 +52,9 @@ public class CreateCampaign extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.putExtra("title", title);
                 intent.putExtra("description", description);
+                String id = databaseReference.push().getKey();
+                Campaign campaign = new Campaign(id, title, description);
+                databaseReference.child(id).setValue(campaign);
                 setResult(RESULT_OK, intent);
                 finish();
                 break;

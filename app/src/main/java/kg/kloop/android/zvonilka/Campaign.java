@@ -5,15 +5,30 @@ package kg.kloop.android.zvonilka;
  */
 
 public class Campaign {
+    String id;
     String title;
     String description;
 
     public Campaign() {
     }
 
+    public Campaign(String id, String title, String description) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+    }
+
     public Campaign(String title, String description) {
         this.title = title;
         this.description = description;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
