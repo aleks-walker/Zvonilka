@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1046777537497",
+    "firebase_url": "https://zvonilka-19f64.firebaseio.com",
+    "project_id": "zvonilka-19f64",
+    "storage_bucket": "zvonilka-19f64.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1046777537497:android:200c6c213f40bca2",
+        "android_client_info": {
+          "package_name": "kg.kloop.android.zvonilka"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1046777537497-t87p0lee9e68jc8ij6ehmn49r50gb547.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kg.kloop.android.zvonilka",
+            "certificate_hash": "f08417a341d3e322bcff1ebb0befa31b53cecf2b"
+          }
+        },
+        {
+          "client_id": "1046777537497-b5b59m5bl7jhiaq8c326b780peltmj6k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBINS63PxMOEghzrDqD6lz-F57CCkfYJzA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1046777537497-b5b59m5bl7jhiaq8c326b780peltmj6k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

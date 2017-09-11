@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         campaignArrayList = new ArrayList<>();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("Companies").child("TestCompany").child("Campaigns");
+        getCampaignsFromFirebase();
 
         adapter = new RecyclerViewAdapter(campaignArrayList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -48,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        getCampaignsFromFirebase();
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Campaign campaign = dataSnapshot.getValue(Campaign.class);
-                campaignArrayList.add(campaign);
+                campaignArrayList.add(0, campaign);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
