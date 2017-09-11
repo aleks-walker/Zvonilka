@@ -1,4 +1,4 @@
-package kg.kloop.android.zvonilka.zvonilka;
+package kg.kloop.android.zvonilka;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("kg.kloop.android.zvonilka.zvonilka", appContext.getPackageName());
+        assertEquals("kg.kloop.android.zvonilka", appContext.getPackageName());
     }
 }

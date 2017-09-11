@@ -1,4 +1,4 @@
-package kg.kloop.android.zvonilka.zvonilka;
+package kg.kloop.android.zvonilka;
 
 import org.junit.Test;
 
