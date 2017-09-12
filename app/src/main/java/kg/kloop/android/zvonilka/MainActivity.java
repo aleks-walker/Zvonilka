@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
 
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -64,8 +66,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Campaign campaign = dataSnapshot.getValue(Campaign.class);
+                //zero is needed to show new items on top
                 campaignArrayList.add(0, campaign);
-                adapter.notifyDataSetChanged();
+                adapter.notifyItemInserted(0);
+                recyclerView.scrollToPosition(0);
             }
 
             @Override

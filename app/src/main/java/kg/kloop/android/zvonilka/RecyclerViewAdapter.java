@@ -2,7 +2,9 @@ package kg.kloop.android.zvonilka;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -27,6 +29,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.name.setText(campaignArrayList.get(position).getTitle());
         holder.description.setText(campaignArrayList.get(position).getDescription());
+
+        holder.editImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO: implement button to edit campaign
+            }
+        });
+        holder.deleteImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO: implement delete campaign button (don't forgot to show dialog before deleting)
+            }
+        });
     }
 
     @Override
@@ -37,10 +52,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView name;
         TextView description;
+        ImageButton editImageButton;
+        ImageButton deleteImageButton;
         private ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.campaign_item, parent, false));
             name = (TextView) itemView.findViewById(R.id.card_title);
             description = (TextView) itemView.findViewById(R.id.card_text);
+            editImageButton = (ImageButton)itemView.findViewById(R.id.edit_image_button);
+            deleteImageButton = (ImageButton)itemView.findViewById(R.id.delete_image_button);
         }
     }
 }
