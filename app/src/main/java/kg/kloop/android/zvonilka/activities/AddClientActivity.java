@@ -8,11 +8,13 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import kg.kloop.android.zvonilka.R;
+import kg.kloop.android.zvonilka.objects.Client;
 
 public class AddClientActivity extends AppCompatActivity {
 
     EditText clientNameEditText;
     EditText clientPhoneNumberEditText;
+    Client client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +26,9 @@ public class AddClientActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        client = new Client();
 
+        //TODO: implement dynamically adding views for client's properties
     }
 
     @Override
@@ -37,6 +41,8 @@ public class AddClientActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.add_client_item:
+                client.setName(clientNameEditText.getText().toString());
+                client.setPhoneNumber(clientPhoneNumberEditText.getText().toString());
 
         }
         return super.onOptionsItemSelected(item);
