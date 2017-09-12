@@ -1,4 +1,4 @@
-package kg.kloop.android.zvonilka;
+package kg.kloop.android.zvonilka.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import kg.kloop.android.zvonilka.objects.Campaign;
+import kg.kloop.android.zvonilka.R;
+import kg.kloop.android.zvonilka.activities.CampaignActivity;
 
 /**
  * Created by alexwalker on 08.09.17.

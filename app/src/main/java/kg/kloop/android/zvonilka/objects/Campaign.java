@@ -1,4 +1,4 @@
-package kg.kloop.android.zvonilka;
+package kg.kloop.android.zvonilka.objects;
 
 /**
  * Created by alexwalker on 08.09.17.

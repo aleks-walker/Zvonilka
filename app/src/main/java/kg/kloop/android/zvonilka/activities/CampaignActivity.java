@@ -1,8 +1,10 @@
-package kg.kloop.android.zvonilka;
+package kg.kloop.android.zvonilka.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+
+import kg.kloop.android.zvonilka.R;
 
 public class CampaignActivity extends AppCompatActivity {
 

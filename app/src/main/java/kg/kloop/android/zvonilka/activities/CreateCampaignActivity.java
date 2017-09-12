@@ -1,4 +1,4 @@
-package kg.kloop.android.zvonilka;
+package kg.kloop.android.zvonilka.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +11,10 @@ import android.widget.EditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class CreateCampaign extends AppCompatActivity {
+import kg.kloop.android.zvonilka.objects.Campaign;
+import kg.kloop.android.zvonilka.R;
+
+public class CreateCampaignActivity extends AppCompatActivity {
 
     EditText titleEditText;
     EditText descriptionEditText;
