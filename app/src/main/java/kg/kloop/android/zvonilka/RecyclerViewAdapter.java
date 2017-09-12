@@ -1,5 +1,7 @@
 package kg.kloop.android.zvonilka;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +51,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return campaignArrayList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView name;
         TextView description;
         ImageButton editImageButton;
@@ -60,6 +62,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             description = (TextView) itemView.findViewById(R.id.card_text);
             editImageButton = (ImageButton)itemView.findViewById(R.id.edit_image_button);
             deleteImageButton = (ImageButton)itemView.findViewById(R.id.delete_image_button);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Context context = itemView.getContext();
+            Intent intent = new Intent(context, CampaignActivity.class);
+            context.startActivity(intent);
         }
     }
 }
