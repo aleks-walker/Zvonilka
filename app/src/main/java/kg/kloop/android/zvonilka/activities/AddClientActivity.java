@@ -1,5 +1,6 @@
 package kg.kloop.android.zvonilka.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -41,9 +42,16 @@ public class AddClientActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.add_client_item:
-                client.setName(clientNameEditText.getText().toString());
-                client.setPhoneNumber(clientPhoneNumberEditText.getText().toString());
+                String name = clientNameEditText.getText().toString();
+                String phoneNumber = clientPhoneNumberEditText.getText().toString();
+                client.setName(name);
+                client.setPhoneNumber(phoneNumber);
 
+                Intent intent = new Intent();
+                intent.putExtra("name", name);
+                intent.putExtra("phoneNumber", phoneNumber);
+                setResult(RESULT_OK, intent);
+                finish();
         }
         return super.onOptionsItemSelected(item);
     }

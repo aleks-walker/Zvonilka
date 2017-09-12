@@ -1,6 +1,7 @@
 package kg.kloop.android.zvonilka.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import kg.kloop.android.zvonilka.R;
+import kg.kloop.android.zvonilka.activities.AddClientActivity;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -17,11 +21,11 @@ import kg.kloop.android.zvonilka.R;
  */
 public class CallClientFragment extends Fragment {
 
+    private static final int REQUEST_CODE_ADD_CLIENT = 101;
     RecyclerView clientsToCallRecyclerView;
     FloatingActionButton addClientFloatingActionButton;
 
     public CallClientFragment() {
-        // Required empty public constructor
     }
 
 
@@ -36,11 +40,22 @@ public class CallClientFragment extends Fragment {
         addClientFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getContext(), AddClientActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_ADD_CLIENT);
             }
         });
 
         return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE_ADD_CLIENT:
+
+                    break;
+            }
+        }
+    }
 }
