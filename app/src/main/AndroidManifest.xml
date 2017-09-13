@@ -19,7 +19,8 @@
         <activity
             android:name=".activities.CreateCampaignActivity"
             android:parentActivityName=".activities.MainActivity" />
-        <activity android:name=".activities.CampaignActivity" />
+        <activity android:name=".activities.CampaignActivity"
+            android:parentActivityName=".activities.MainActivity"/>
         <activity android:name=".activities.AddClientActivity"
             android:parentActivityName=".activities.CampaignActivity"/>
     </application>

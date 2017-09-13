@@ -73,7 +73,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public void onClick(View view) {
             Context context = itemView.getContext();
             Intent intent = new Intent(context, CampaignActivity.class);
-            intent.putExtra("currentCampaignId", campaignArrayList.get(getAdapterPosition()).getId());
+            Campaign currentCampaign = campaignArrayList.get(getAdapterPosition());
+            //get campaign's id to save clients into that campaign
+            intent.putExtra("currentCampaignId", currentCampaign.getId());
+            //get campaign's title to show in toolbar
+            intent.putExtra("currentCampaignTitle", currentCampaign.getTitle());
             context.startActivity(intent);
         }
     }

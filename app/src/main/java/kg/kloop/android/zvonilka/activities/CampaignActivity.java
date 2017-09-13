@@ -18,7 +18,9 @@ public class CampaignActivity extends AppCompatActivity {
         setContentView(R.layout.activity_campaign);
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle(getIntent().getStringExtra("currentCampaignTitle"));
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ViewPager viewPager = (ViewPager)findViewById(R.id.view_pager);
         viewPager.setAdapter(new CustomFragmetPagerAdapter(getSupportFragmentManager()));
