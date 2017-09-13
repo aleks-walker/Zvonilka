@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -28,8 +29,8 @@ public class ClientsRecyclerViewAdapter extends RecyclerView.Adapter<ClientsRecy
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-       // View clientView = inflater.inflate(R.layout.client_item, parent);
-        return new ViewHolder(inflater.inflate(R.layout.client_item, null));
+        View clientView = inflater.inflate(R.layout.client_item, parent, false);
+        return new ViewHolder(clientView);
     }
 
     @Override
@@ -43,12 +44,20 @@ public class ClientsRecyclerViewAdapter extends RecyclerView.Adapter<ClientsRecy
         return clientArrayList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView nameTextView;
+        ImageButton showMoreImageButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            nameTextView = (TextView)itemView.findViewById(R.id.name_text_view);
+            nameTextView = itemView.findViewById(R.id.name_text_view);
+            showMoreImageButton = itemView.findViewById(R.id.show_more_image_button);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+
         }
     }
 }
