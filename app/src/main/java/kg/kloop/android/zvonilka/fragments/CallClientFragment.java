@@ -34,7 +34,6 @@ public class CallClientFragment extends Fragment {
 
     private static final int REQUEST_CODE_ADD_CLIENT = 101;
     private RecyclerView clientsToCallRecyclerView;
-    private FloatingActionButton addClientFloatingActionButton;
     private ArrayList<Client> clientArrayList;
     private ClientsRecyclerViewAdapter adapter;
     private FirebaseDatabase firebaseDatabase;
@@ -51,21 +50,12 @@ public class CallClientFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_call_client, container, false);
 
         clientsToCallRecyclerView = view.findViewById(R.id.clients_to_call_recycler_view);
-        addClientFloatingActionButton = view.findViewById(R.id.add_client_floating_action_button);
         firebaseDatabase = FirebaseDatabase.getInstance();
         currentCampaignId = getActivity().getIntent().getStringExtra("currentCampaignId");
         databaseReference = firebaseDatabase.getReference().child("Companies").child("TestCompany").child("Campaigns").child(currentCampaignId).child("Clients");
         clientArrayList = new ArrayList<>();
         getDataFromFirebase();
 
-        addClientFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), AddClientActivity.class);
-                intent.putExtra("currentCampaignId", currentCampaignId);
-                startActivity(intent);
-            }
-        });
         adapter = new ClientsRecyclerViewAdapter(getContext(), clientArrayList);
         clientsToCallRecyclerView.setAdapter(adapter);
         clientsToCallRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
