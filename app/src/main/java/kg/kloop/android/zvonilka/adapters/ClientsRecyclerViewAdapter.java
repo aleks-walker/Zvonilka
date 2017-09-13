@@ -1,6 +1,7 @@
 package kg.kloop.android.zvonilka.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import kg.kloop.android.zvonilka.R;
+import kg.kloop.android.zvonilka.activities.ClientActivity;
 import kg.kloop.android.zvonilka.objects.Client;
 
 /**
@@ -44,7 +46,7 @@ public class ClientsRecyclerViewAdapter extends RecyclerView.Adapter<ClientsRecy
         return clientArrayList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView nameTextView;
         ImageButton showMoreImageButton;
 
@@ -57,7 +59,9 @@ public class ClientsRecyclerViewAdapter extends RecyclerView.Adapter<ClientsRecy
 
         @Override
         public void onClick(View view) {
-
+            Intent intent = new Intent(context, ClientActivity.class);
+            intent.putExtra("clientId", clientArrayList.get(getAdapterPosition()).getId());
+            context.startActivity(intent);
         }
     }
 }

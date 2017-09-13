@@ -16,7 +16,7 @@ import kg.kloop.android.zvonilka.adapters.CustomFragmetPagerAdapter;
 public class CampaignActivity extends AppCompatActivity {
 
     private FloatingActionButton addClientFloatingActionButton;
-    private String currentCampaignId;
+    private static String currentCampaignId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,5 +44,9 @@ public class CampaignActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public static String getCurrentCampaignId(){
+        return currentCampaignId;
     }
 }
