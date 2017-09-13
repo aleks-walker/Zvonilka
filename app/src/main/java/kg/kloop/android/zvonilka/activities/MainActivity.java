@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
         floatingActionButton = (FloatingActionButton)findViewById(R.id.floating_action_button);
         campaignArrayList = new ArrayList<>();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -97,23 +96,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case REQUEST_CODE_CREATE_CAMPAIGN:
-                    Campaign campaign = new Campaign();
-                    campaign.setTitle(data.getStringExtra("title"));
-                    campaign.setDescription(data.getStringExtra("description"));
-                    campaignArrayList.add(campaign);
-                    break;
-            }
-        }
-    }
-
     private void createNewCampaign() {
         Intent intent = new Intent(MainActivity.this, CreateCampaignActivity.class);
-        startActivityForResult(intent, REQUEST_CODE_CREATE_CAMPAIGN);
+        startActivity(intent);
     }
 
 

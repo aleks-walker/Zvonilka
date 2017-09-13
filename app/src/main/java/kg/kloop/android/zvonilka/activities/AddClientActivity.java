@@ -8,6 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import kg.kloop.android.zvonilka.R;
 import kg.kloop.android.zvonilka.objects.Client;
 
@@ -16,6 +19,9 @@ public class AddClientActivity extends AppCompatActivity {
     EditText clientNameEditText;
     EditText clientPhoneNumberEditText;
     Client client;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    private String currentCampaignId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +34,9 @@ public class AddClientActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         client = new Client();
+        currentCampaignId = getIntent().getStringExtra("currentCampaignId");
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference().child("Companies").child("TestCompany").child("Campaigns").child(currentCampaignId).child("Clients");
 
         //TODO: implement dynamically adding views for client's properties
     }
@@ -44,15 +53,13 @@ public class AddClientActivity extends AppCompatActivity {
             case R.id.add_client_item:
                 String name = clientNameEditText.getText().toString();
                 String phoneNumber = clientPhoneNumberEditText.getText().toString();
+                client.setId(databaseReference.push().getKey());
                 client.setName(name);
                 client.setPhoneNumber(phoneNumber);
-
-                Intent intent = new Intent();
-                intent.putExtra("name", name);
-                intent.putExtra("phoneNumber", phoneNumber);
-                setResult(RESULT_OK, intent);
+                databaseReference.child(client.getId()).setValue(client);
                 finish();
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

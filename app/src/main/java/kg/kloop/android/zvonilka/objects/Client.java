@@ -6,8 +6,26 @@ package kg.kloop.android.zvonilka.objects;
 
 public class Client {
 
+    private String id;
     private String name;
     private String phoneNumber;
+
+    public Client() {
+    }
+
+    public Client(String id, String name, String phoneNumber) {
+        this.id = id;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

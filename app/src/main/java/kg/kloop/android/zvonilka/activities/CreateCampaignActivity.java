@@ -52,13 +52,9 @@ public class CreateCampaignActivity extends AppCompatActivity {
             case R.id.done_item:
                 title = titleEditText.getText().toString();
                 description = descriptionEditText.getText().toString();
-                Intent intent = new Intent();
-                intent.putExtra("title", title);
-                intent.putExtra("description", description);
                 String id = databaseReference.push().getKey();
                 Campaign campaign = new Campaign(id, title, description);
                 databaseReference.child(id).setValue(campaign);
-                setResult(RESULT_OK, intent);
                 finish();
                 break;
         }

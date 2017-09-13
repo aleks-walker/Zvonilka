@@ -55,7 +55,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return campaignArrayList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView name;
         TextView description;
         ImageButton editImageButton;
@@ -73,6 +73,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public void onClick(View view) {
             Context context = itemView.getContext();
             Intent intent = new Intent(context, CampaignActivity.class);
+            intent.putExtra("currentCampaignId", campaignArrayList.get(getAdapterPosition()).getId());
             context.startActivity(intent);
         }
     }
