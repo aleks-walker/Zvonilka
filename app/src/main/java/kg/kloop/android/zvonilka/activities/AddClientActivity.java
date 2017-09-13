@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -56,10 +57,23 @@ public class AddClientActivity extends AppCompatActivity {
                 client.setId(databaseReference.push().getKey());
                 client.setName(name);
                 client.setPhoneNumber(phoneNumber);
-                databaseReference.child(client.getId()).setValue(client);
+                if(isDataEmpty()){
+                    Toast.makeText(getApplicationContext(), R.string.enter_some_data, Toast.LENGTH_SHORT).show();
+                } else {
+                    databaseReference.child(client.getId()).setValue(client);
+                    finish();
+                }
+                break;
+            case android.R.id.home:
                 finish();
+                break;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
+    }
+
+    private boolean isDataEmpty() {
+        return !(clientNameEditText.getText().length() > 0
+                    && clientPhoneNumberEditText.getText().length() > 0);
     }
 
 }

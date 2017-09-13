@@ -23,4 +23,5 @@
     <string name="client_phone">Phone number</string>
     <string name="client_name">Name</string>
     <string name="add_client">Add client</string>
+    <string name="enter_some_data">Enter some data</string>
 </resources>
