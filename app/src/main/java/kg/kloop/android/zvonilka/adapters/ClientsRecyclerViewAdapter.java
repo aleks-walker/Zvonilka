@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -48,12 +48,12 @@ public class ClientsRecyclerViewAdapter extends RecyclerView.Adapter<ClientsRecy
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView nameTextView;
-        ImageButton showMoreImageButton;
+        ImageView showMoreImageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.name_text_view);
-            showMoreImageButton = itemView.findViewById(R.id.show_more_image_button);
+            showMoreImageView = itemView.findViewById(R.id.show_more_image_view);
             itemView.setOnClickListener(this);
         }
 
