@@ -1,15 +1,13 @@
-package kg.kloop.android.zvonilka.fragments;
-
+package kg.kloop.android.zvonilka.activities;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -20,59 +18,55 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 import kg.kloop.android.zvonilka.R;
-import kg.kloop.android.zvonilka.activities.AddClientActivity;
 import kg.kloop.android.zvonilka.adapters.ClientsRecyclerViewAdapter;
 import kg.kloop.android.zvonilka.objects.Client;
 
-import static android.app.Activity.RESULT_OK;
+public class AllClientsActivity extends AppCompatActivity {
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class CallClientFragment extends Fragment {
-
-    private static final int REQUEST_CODE_ADD_CLIENT = 101;
-    private RecyclerView clientsToCallRecyclerView;
-    private ArrayList<Client> clientArrayList;
-    private ClientsRecyclerViewAdapter adapter;
+    private ArrayList<Client> allClientsArrayList;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-    private String currentCampaignId;
-
-    public CallClientFragment() {
-    }
-
+    private ClientsRecyclerViewAdapter adapter;
+    private RecyclerView recyclerView;
+    private FloatingActionButton floatingActionButton;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_call_client, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_all_clients);
 
-        clientsToCallRecyclerView = view.findViewById(R.id.clients_to_call_recycler_view);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        floatingActionButton = (FloatingActionButton)findViewById(R.id.add_client_to_company_floating_action_button);
+
         firebaseDatabase = FirebaseDatabase.getInstance();
-        currentCampaignId = getActivity().getIntent().getStringExtra("currentCampaignId");
-        //TODO: fix this path
         databaseReference = firebaseDatabase.getReference().child("Companies").child("TestCompany").child("Clients");
-        clientArrayList = new ArrayList<>();
+
+        recyclerView = (RecyclerView)findViewById(R.id.all_clients_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        allClientsArrayList = new ArrayList<>();
         getDataFromFirebase();
+        adapter = new ClientsRecyclerViewAdapter(this, allClientsArrayList);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new ClientsRecyclerViewAdapter(getContext(), clientArrayList);
-        clientsToCallRecyclerView.setAdapter(adapter);
-        clientsToCallRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        clientsToCallRecyclerView.setHasFixedSize(true);
-
-        return view;
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AllClientsActivity.this, AddClientActivity.class);
+                startActivity(intent);
+            }
+        });
     }
-
 
     private void getDataFromFirebase() {
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                clientArrayList.add(0, dataSnapshot.getValue(Client.class));
+                allClientsArrayList.add(0, dataSnapshot.getValue(Client.class));
                 adapter.notifyItemInserted(0);
-                clientsToCallRecyclerView.scrollToPosition(0);
+                recyclerView.scrollToPosition(0);
             }
 
             @Override

@@ -22,7 +22,6 @@ public class AddClientActivity extends AppCompatActivity {
     Client client;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-    private String currentCampaignId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +34,8 @@ public class AddClientActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         client = new Client();
-        currentCampaignId = getIntent().getStringExtra("currentCampaignId");
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference().child("Companies").child("TestCompany").child("Campaigns").child(currentCampaignId).child("Clients");
+        databaseReference = firebaseDatabase.getReference().child("Companies").child("TestCompany").child("Clients");
 
         //TODO: implement dynamically adding views for client's properties
     }

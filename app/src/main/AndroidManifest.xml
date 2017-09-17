@@ -3,6 +3,7 @@
     package="kg.kloop.android.zvonilka">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,8 +26,11 @@
             android:parentActivityName=".activities.MainActivity" />
         <activity
             android:name=".activities.AddClientActivity"
+            android:parentActivityName=".activities.AllClientsActivity" />
+        <activity
+            android:name=".activities.ClientActivity"
             android:parentActivityName=".activities.CampaignActivity" />
-        <activity android:name=".activities.ClientActivity"
+        <activity android:name=".activities.AllClientsActivity"
             android:parentActivityName=".activities.CampaignActivity"/>
     </application>
 

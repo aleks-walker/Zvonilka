@@ -56,8 +56,7 @@ public class ClientActivity extends AppCompatActivity {
         currentCampaignId = CampaignActivity.getCurrentCampaignId();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference().child("Companies").child("TestCompany").child("Campaigns")
-                .child(currentCampaignId)
+        databaseReference = firebaseDatabase.getReference().child("Companies").child("TestCompany")
                 .child("Clients")
                 .child(clientId);
         databaseReference.addValueEventListener(new ValueEventListener() {

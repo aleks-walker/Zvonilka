@@ -25,4 +25,5 @@
     <string name="add_client">Add client</string>
     <string name="enter_some_data">Enter some data</string>
     <string name="permission_to_call_is_required">You need to grant permission</string>
+    <string name="show_all_clients">Show all clients</string>
 </resources>
