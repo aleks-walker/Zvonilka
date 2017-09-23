@@ -6,4 +6,8 @@
         android:id="@+id/show_all_clients_item"
         app:showAsAction="always"
         android:icon="@drawable/ic_all_clients"/>
+    <item android:title="@string/call_log"
+        android:id="@+id/call_log_item"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_call_log"/>
 </menu>

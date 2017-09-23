@@ -31,4 +31,5 @@
     <string name="call_back">Call back</string>
     <string name="dont_call">Don\'t call</string>
     <string name="call_again">Call again</string>
+    <string name="call_log">Call log</string>
 </resources>

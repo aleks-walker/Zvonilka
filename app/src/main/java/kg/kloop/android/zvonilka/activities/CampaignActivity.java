@@ -62,8 +62,10 @@ public class CampaignActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.show_all_clients_item:
-                Intent intent = new Intent(CampaignActivity.this, AllClientsActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(CampaignActivity.this, AllClientsActivity.class));
+                break;
+            case R.id.call_log_item:
+                startActivity(new Intent(CampaignActivity.this, CallLogActivity.class));
                 break;
         }
         return super.onOptionsItemSelected(item);
