@@ -11,6 +11,7 @@ public class Call {
     private String date;
     private String duration;
     private String description;
+    int callResult;
 
     public Call() {
     }
@@ -22,6 +23,24 @@ public class Call {
         this.date = date;
         this.duration = duration;
         this.description = description;
+    }
+
+    public Call(String id, String phoneNumber, String type, String date, String duration, String description, int callResult) {
+        this.id = id;
+        this.phoneNumber = phoneNumber;
+        this.type = type;
+        this.date = date;
+        this.duration = duration;
+        this.description = description;
+        this.callResult = callResult;
+    }
+
+    public int getCallResult() {
+        return callResult;
+    }
+
+    public void setCallResult(int callResult) {
+        this.callResult = callResult;
     }
 
     public String getId() {

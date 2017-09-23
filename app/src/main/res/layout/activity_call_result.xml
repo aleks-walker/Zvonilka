@@ -48,21 +48,30 @@
         android:layout_marginStart="8dp"
         android:text="@string/call_result" />
 
-    <LinearLayout
+    <RadioGroup
+        android:id="@+id/call_result_radio_group"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
-        <ToggleButton
-            android:id="@+id/dont_call_toggle_button"
-            android:layout_width="wrap_content"
+        <RadioButton
+            android:id="@+id/successful_call_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/successful_call" />
+
+        <RadioButton
+            android:id="@+id/call_back_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/call_back" />
+
+        <RadioButton
+            android:id="@+id/dont_call_radio_button"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/dont_call" />
-        <ToggleButton
-            android:id="@+id/call_back_toggle_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/call_back"/>
-    </LinearLayout>
+
+    </RadioGroup>
+
 
 </LinearLayout>
