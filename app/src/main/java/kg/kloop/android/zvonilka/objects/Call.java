@@ -6,20 +6,22 @@ package kg.kloop.android.zvonilka.objects;
 
 public class Call {
     private String id;
-    private Client client;
+    private String phoneNumber;
     private String type;
+    private String date;
+    private String duration;
     private String description;
-    private String result;
 
     public Call() {
     }
 
-    public Call(String id, Client client, String type, String description, String result) {
+    public Call(String id, String phoneNumber, String type, String date, String duration, String description) {
         this.id = id;
-        this.client = client;
+        this.phoneNumber = phoneNumber;
         this.type = type;
+        this.date = date;
+        this.duration = duration;
         this.description = description;
-        this.result = result;
     }
 
     public String getId() {
@@ -30,14 +32,19 @@ public class Call {
         this.id = id;
     }
 
-    public Client getClient() {
-        return client;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
+    /**
+     * INCOMING_TYPE == 1 (CallLog.Calls.INCOMING_TYPE)
+     * OUTGOING_TYPE == 2 (CallLog.Calls.OUTGOING_TYPE)
+     * MISSED_TYPE == 3 (CallLog.Calls.MISSED_TYPE)
+     */
     public String getType() {
         return type;
     }
@@ -46,19 +53,27 @@ public class Call {
         this.type = type;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
     }
 }

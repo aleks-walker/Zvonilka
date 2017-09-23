@@ -3,6 +3,7 @@
     package="kg.kloop.android.zvonilka">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
 
     <application
         android:allowBackup="true"
@@ -33,7 +34,8 @@
         <activity
             android:name=".activities.AllClientsActivity"
             android:parentActivityName=".activities.CampaignActivity" />
-        <activity android:name=".activities.CallResultActivity"></activity>
+        <activity android:name=".activities.CallResultActivity"
+            android:parentActivityName=".activities.CampaignActivity"/>
     </application>
 
 </manifest>

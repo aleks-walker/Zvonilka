@@ -9,16 +9,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -79,7 +76,9 @@ public class ClientActivity extends AppCompatActivity {
                 if(android.os.Build.VERSION.SDK_INT > 22) {
                     if (ActivityCompat.checkSelfPermission(ClientActivity.this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
                         callClient();
-                    } else askForPermission();
+                    } else {
+                        askForCallPhonePermission();
+                    }
                 } else callClient();
             }
         });
@@ -88,13 +87,14 @@ public class ClientActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-       // if(requestCode == RESULT_OK){
+        //ACTION_CALL does not return any result
+        //if(resultCode == RESULT_OK){
             switch (requestCode){
                 case REQUEST_CODE_CALL_CLIENT:
                     startActivity(new Intent(ClientActivity.this, CallResultActivity.class));
                     break;
             }
-       // }
+        //}
     }
 
     private void callClient() {
@@ -122,19 +122,19 @@ public class ClientActivity extends AppCompatActivity {
         return true;
     }
 
-    private void askForPermission() {
+    private void askForCallPhonePermission() {
         ActivityCompat.requestPermissions(ClientActivity.this,
                 new String[]{Manifest.permission.CALL_PHONE},
                 MY_PERMISSIONS_REQUEST_CALL_PHONE);
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
+        switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_CALL_PHONE: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    callClient();
+                if (ActivityCompat.checkSelfPermission(ClientActivity.this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                   callClient();
                 } else {
                     Toast.makeText(getApplicationContext(), R.string.permission_to_call_is_required, Toast.LENGTH_LONG).show();
                 }
