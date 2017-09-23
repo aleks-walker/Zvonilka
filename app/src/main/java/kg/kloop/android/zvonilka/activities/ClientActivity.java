@@ -32,6 +32,7 @@ public class ClientActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_CALL_CLIENT = 102;
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 103;
+    private static final String TAG = "ClientActivity";
     TextView nameTextView;
     String clientId;
     FirebaseDatabase firebaseDatabase;
@@ -87,12 +88,13 @@ public class ClientActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == RESULT_OK){
+       // if(requestCode == RESULT_OK){
             switch (requestCode){
                 case REQUEST_CODE_CALL_CLIENT:
-
+                    startActivity(new Intent(ClientActivity.this, CallResultActivity.class));
+                    break;
             }
-        }
+       // }
     }
 
     private void callClient() {

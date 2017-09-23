@@ -26,4 +26,9 @@
     <string name="enter_some_data">Enter some data</string>
     <string name="permission_to_call_is_required">You need to grant permission</string>
     <string name="show_all_clients">Show all clients</string>
+    <string name="call_description">Call description</string>
+    <string name="call_result">Call result</string>
+    <string name="call_back">Call back</string>
+    <string name="dont_call">Don\'t call</string>
+    <string name="call_again">Call again</string>
 </resources>

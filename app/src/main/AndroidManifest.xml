@@ -30,8 +30,10 @@
         <activity
             android:name=".activities.ClientActivity"
             android:parentActivityName=".activities.CampaignActivity" />
-        <activity android:name=".activities.AllClientsActivity"
-            android:parentActivityName=".activities.CampaignActivity"/>
+        <activity
+            android:name=".activities.AllClientsActivity"
+            android:parentActivityName=".activities.CampaignActivity" />
+        <activity android:name=".activities.CallResultActivity"></activity>
     </application>
 
 </manifest>
