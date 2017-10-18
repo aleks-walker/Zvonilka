@@ -75,12 +75,11 @@ public class CallResultActivity extends AppCompatActivity {
         } else askForReadCallLogPermission();
 
         successfulCallRadioButton.setChecked(true);
-        setupFirebaseForClientsInCampaign();
         getCallResult();
 
     }
 
-    private void setupFirebaseForClientsInCampaign() {
+    private void setClientCategory() {
         final ArrayList<Client> clientArrayList = new ArrayList<>();
         Query clientsInCampaignQuery = firebaseDatabase.getReference()
                 .child("Companies")
@@ -174,7 +173,7 @@ public class CallResultActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.add_client_item:
                 saveCallResultToFirebase();
-                setClientCategoryInCampaign();
+                setClientCategory();
                 finish();
                 break;
         }
@@ -182,8 +181,6 @@ public class CallResultActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setClientCategoryInCampaign() {
-    }
 
     private void saveCallResultToFirebase() {
         String callId = callsDatabaseReference.push().getKey();
