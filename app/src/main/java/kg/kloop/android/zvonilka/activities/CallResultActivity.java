@@ -17,12 +17,19 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+
+import java.util.ArrayList;
 
 import kg.kloop.android.zvonilka.R;
 import kg.kloop.android.zvonilka.helpers.CampaignInfo;
 import kg.kloop.android.zvonilka.objects.Call;
+import kg.kloop.android.zvonilka.objects.Client;
 
 public class CallResultActivity extends AppCompatActivity {
 
@@ -34,7 +41,7 @@ public class CallResultActivity extends AppCompatActivity {
     RadioButton dontCallRadioButton;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference callsDatabaseReference;
-    String currentCampaign = CampaignInfo.getCurrentCampaignId();
+    String currentCampaignId = CampaignInfo.getCurrentCampaignId();
     Call call;
     String phoneNumber;
     String callType;
@@ -61,15 +68,64 @@ public class CallResultActivity extends AppCompatActivity {
         callsDatabaseReference = firebaseDatabase.getReference("Companies")
                 .child("TestCompany")
                 .child("Campaigns")
-                .child(currentCampaign)
+                .child(currentCampaignId)
                 .child("Calls");
         if(isPermissionToReadCallLogGranted()){
             getCallDetails();
         } else askForReadCallLogPermission();
 
         successfulCallRadioButton.setChecked(true);
+        setupFirebaseForClientsInCampaign();
         getCallResult();
 
+    }
+
+    private void setupFirebaseForClientsInCampaign() {
+        final ArrayList<Client> clientArrayList = new ArrayList<>();
+        Query clientsInCampaignQuery = firebaseDatabase.getReference()
+                .child("Companies")
+                .child("TestCompany")
+                .child("Campaigns")
+                .child(currentCampaignId)
+                .child("Clients")
+                .orderByChild("phoneNumber")
+                .equalTo(phoneNumber);
+        final DatabaseReference clientsInCampaignDatabaseReference = firebaseDatabase.getReference()
+                .child("Companies")
+                .child("TestCompany")
+                .child("Campaigns")
+                .child(currentCampaignId)
+                .child("Clients");
+        clientsInCampaignQuery.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                clientArrayList.add(dataSnapshot.getValue(Client.class));
+                for (Client client : clientArrayList){
+                    client.setCategory(callResult);
+                    clientsInCampaignDatabaseReference.child(client.getId()).setValue(client);
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void getCallDetails() {
@@ -117,15 +173,23 @@ public class CallResultActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.add_client_item:
-                String callId = callsDatabaseReference.push().getKey();
-                callDescription = callDescriptionEditText.getText().toString();
-                call = new Call(callId, phoneNumber, callType, callDate, callDuration, callDescription, callResult);
-                callsDatabaseReference.child(callId).setValue(call);
+                saveCallResultToFirebase();
+                setClientCategoryInCampaign();
                 finish();
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setClientCategoryInCampaign() {
+    }
+
+    private void saveCallResultToFirebase() {
+        String callId = callsDatabaseReference.push().getKey();
+        callDescription = callDescriptionEditText.getText().toString();
+        call = new Call(callId, phoneNumber, callType, callDate, callDuration, callDescription, callResult);
+        callsDatabaseReference.child(callId).setValue(call);
     }
 
     private void askForReadCallLogPermission(){

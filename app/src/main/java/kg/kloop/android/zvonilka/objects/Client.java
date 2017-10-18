@@ -9,14 +9,16 @@ public class Client {
     private String id;
     private String name;
     private String phoneNumber;
+    private int category;
 
     public Client() {
     }
 
-    public Client(String id, String name, String phoneNumber) {
+    public Client(String id, String name, String phoneNumber, int category) {
         this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.category = category;
     }
 
     public String getId() {
@@ -41,5 +43,13 @@ public class Client {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public int getCategory() {
+        return category;
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
     }
 }
