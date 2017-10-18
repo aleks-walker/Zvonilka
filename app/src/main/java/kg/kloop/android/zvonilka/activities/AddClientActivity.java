@@ -22,20 +22,33 @@ public class AddClientActivity extends AppCompatActivity {
     Client client;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    String currentCampaignId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_client);
 
-        clientNameEditText = (EditText)findViewById(R.id.client_name_edit_text);
-        clientPhoneNumberEditText = (EditText)findViewById(R.id.client_phone_number_edit_text);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        clientNameEditText = (EditText) findViewById(R.id.client_name_edit_text);
+        clientPhoneNumberEditText = (EditText) findViewById(R.id.client_phone_number_edit_text);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         client = new Client();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference().child("Companies").child("TestCompany").child("Clients");
+        if (isClientForCampaign()) {
+            databaseReference = firebaseDatabase.getReference()
+                    .child("Companies")
+                    .child("TestCompany")
+                    .child("Campaigns")
+                    .child(currentCampaignId)
+                    .child("Clients");
+        } else {
+            databaseReference = firebaseDatabase.getReference()
+                    .child("Companies")
+                    .child("TestCompany")
+                    .child("Clients");
+        }
 
         //TODO: implement dynamically adding views for client's properties
     }
@@ -74,4 +87,12 @@ public class AddClientActivity extends AppCompatActivity {
                     && clientPhoneNumberEditText.getText().length() > 0);
     }
 
+    public boolean isClientForCampaign() {
+        Intent intent = getIntent();
+        if(intent.hasExtra("currentCampaignId")){
+            currentCampaignId = intent.getStringExtra("currentCampaignId");
+            return true;
+        }
+        return false;
+    }
 }
