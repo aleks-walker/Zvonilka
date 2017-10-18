@@ -41,6 +41,7 @@ public class CallLogAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.callDateTextView.setText(currentCall.getDate());
         holder.callDurationTextView.setText(currentCall.getDuration());
         holder.callDescriptionTextView.setText(currentCall.getDescription());
+        holder.callResultTextView.setText(String.valueOf(currentCall.getCallResult()));
     }
 
     @Override
@@ -54,6 +55,7 @@ public class CallLogAdapter extends RecyclerView.Adapter<ViewHolder> {
         TextView callDateTextView;
         TextView callDurationTextView;
         TextView callDescriptionTextView;
+        TextView callResultTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -62,7 +64,7 @@ public class CallLogAdapter extends RecyclerView.Adapter<ViewHolder> {
             callDateTextView = itemView.findViewById(R.id.call_date_text_view);
             callDurationTextView = itemView.findViewById(R.id.call_duration_text_view);
             callDescriptionTextView = itemView.findViewById(R.id.call_description_text_view);
-
+            callResultTextView = itemView.findViewById(R.id.call_result_text_view);
         }
     }
 }
