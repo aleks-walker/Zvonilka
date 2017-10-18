@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 
@@ -36,6 +36,7 @@ public class CallBackClientFragment extends Fragment {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private String currentCampaignId;
+    private Query callBackQuery;
 
 
     public CallBackClientFragment() {
@@ -51,7 +52,15 @@ public class CallBackClientFragment extends Fragment {
         callBackClientsRecyclerView = view.findViewById(R.id.call_back_clients_recycler_view);
         firebaseDatabase = FirebaseDatabase.getInstance();
         currentCampaignId = CampaignInfo.getCurrentCampaignId();
-        databaseReference = firebaseDatabase.getReference().child("Companies").child("TestCompany").child("Campaigns").child(currentCampaignId).child("Clients");
+        //databaseReference = firebaseDatabase.getReference().child("Companies").child("TestCompany").child("Campaigns").child(currentCampaignId).child("Clients");
+        callBackQuery = firebaseDatabase.getReference()
+                .child("Companies")
+                .child("TestCompany")
+                .child("Campaigns")
+                .child(currentCampaignId)
+                .child("Clients")
+                .orderByChild("category")
+                .equalTo(1); // 1 == call back
         clientArrayList = new ArrayList<>();
         getDataFromFirebase();
 
@@ -64,7 +73,7 @@ public class CallBackClientFragment extends Fragment {
     }
 
     private void getDataFromFirebase() {
-        databaseReference.addChildEventListener(new ChildEventListener() {
+        callBackQuery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 clientArrayList.add(0, dataSnapshot.getValue(Client.class));
