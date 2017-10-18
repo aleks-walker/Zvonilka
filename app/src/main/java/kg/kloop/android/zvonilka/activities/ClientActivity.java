@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import kg.kloop.android.zvonilka.R;
+import kg.kloop.android.zvonilka.helpers.CampaignInfo;
 import kg.kloop.android.zvonilka.objects.Client;
 
 public class ClientActivity extends AppCompatActivity {
@@ -51,7 +52,7 @@ public class ClientActivity extends AppCompatActivity {
         callImageButton = (ImageButton) findViewById(R.id.call_image_button);
         Intent intent = getIntent();
         clientId = intent.getStringExtra("clientId");
-        currentCampaignId = CampaignActivity.getCurrentCampaignId();
+        currentCampaignId = CampaignInfo.getCurrentCampaignId();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("Companies").child("TestCompany")

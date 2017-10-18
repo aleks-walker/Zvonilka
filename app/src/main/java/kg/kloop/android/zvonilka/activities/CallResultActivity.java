@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import kg.kloop.android.zvonilka.R;
+import kg.kloop.android.zvonilka.helpers.CampaignInfo;
 import kg.kloop.android.zvonilka.objects.Call;
 
 public class CallResultActivity extends AppCompatActivity {
@@ -33,7 +34,7 @@ public class CallResultActivity extends AppCompatActivity {
     RadioButton dontCallRadioButton;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference callsDatabaseReference;
-    String currentCampaign = CampaignActivity.getCurrentCampaignId();
+    String currentCampaign = CampaignInfo.getCurrentCampaignId();
     Call call;
     String phoneNumber;
     String callType;

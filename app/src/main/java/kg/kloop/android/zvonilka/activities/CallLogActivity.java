@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import kg.kloop.android.zvonilka.R;
 import kg.kloop.android.zvonilka.adapters.CallLogAdapter;
+import kg.kloop.android.zvonilka.helpers.CampaignInfo;
 import kg.kloop.android.zvonilka.objects.Call;
 
 public class CallLogActivity extends AppCompatActivity {
@@ -26,7 +27,7 @@ public class CallLogActivity extends AppCompatActivity {
     ArrayList<Call> callArrayList;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-    String currentCampaign = CampaignActivity.getCurrentCampaignId();
+    String currentCampaign = CampaignInfo.getCurrentCampaignId();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

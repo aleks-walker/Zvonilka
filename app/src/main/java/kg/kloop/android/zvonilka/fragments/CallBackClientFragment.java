@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 
 import kg.kloop.android.zvonilka.R;
 import kg.kloop.android.zvonilka.adapters.ClientsRecyclerViewAdapter;
+import kg.kloop.android.zvonilka.helpers.CampaignInfo;
 import kg.kloop.android.zvonilka.objects.Client;
 
 
@@ -27,6 +29,7 @@ import kg.kloop.android.zvonilka.objects.Client;
  */
 public class CallBackClientFragment extends Fragment {
 
+    private static final String TAG = "CallBackClientFragment";
     RecyclerView callBackClientsRecyclerView;
     private ArrayList<Client> clientArrayList;
     private ClientsRecyclerViewAdapter adapter;
@@ -47,8 +50,7 @@ public class CallBackClientFragment extends Fragment {
 
         callBackClientsRecyclerView = view.findViewById(R.id.call_back_clients_recycler_view);
         firebaseDatabase = FirebaseDatabase.getInstance();
-        currentCampaignId = getActivity().getIntent().getStringExtra("currentCampaignId");
-        //TODO: fix this path
+        currentCampaignId = CampaignInfo.getCurrentCampaignId();
         databaseReference = firebaseDatabase.getReference().child("Companies").child("TestCompany").child("Campaigns").child(currentCampaignId).child("Clients");
         clientArrayList = new ArrayList<>();
         getDataFromFirebase();

@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,11 +15,13 @@ import android.widget.TableLayout;
 
 import kg.kloop.android.zvonilka.R;
 import kg.kloop.android.zvonilka.adapters.CustomFragmetPagerAdapter;
+import kg.kloop.android.zvonilka.helpers.CampaignInfo;
 
 public class CampaignActivity extends AppCompatActivity {
 
+    private static final String TAG = "CampaignActivity";
     private FloatingActionButton addClientFloatingActionButton;
-    private static String currentCampaignId;
+    private String currentCampaignId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,8 @@ public class CampaignActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 
-        currentCampaignId = getIntent().getStringExtra("currentCampaignId");
+        CampaignInfo.setCurrentCampaignId(getIntent().getStringExtra("currentCampaignId"));
+        currentCampaignId = CampaignInfo.getCurrentCampaignId();
         addClientFloatingActionButton = (FloatingActionButton)findViewById(R.id.add_client_floating_action_button);
         addClientFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,10 +50,6 @@ public class CampaignActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    public static String getCurrentCampaignId(){
-        return currentCampaignId;
     }
 
     @Override
