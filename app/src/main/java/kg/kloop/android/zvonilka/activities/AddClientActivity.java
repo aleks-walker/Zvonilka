@@ -21,7 +21,7 @@ public class AddClientActivity extends AppCompatActivity {
     EditText clientPhoneNumberEditText;
     Client client;
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
+    DatabaseReference companyClientsDatabaseReference;
     String currentCampaignId;
 
     @Override
@@ -36,19 +36,10 @@ public class AddClientActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         client = new Client();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        if (isClientForCampaign()) {
-            databaseReference = firebaseDatabase.getReference()
-                    .child("Companies")
-                    .child("TestCompany")
-                    .child("Campaigns")
-                    .child(currentCampaignId)
-                    .child("Clients");
-        } else {
-            databaseReference = firebaseDatabase.getReference()
-                    .child("Companies")
-                    .child("TestCompany")
-                    .child("Clients");
-        }
+        companyClientsDatabaseReference = firebaseDatabase.getReference()
+                .child("Companies")
+                .child("TestCompany")
+                .child("Clients");
 
         //TODO: implement dynamically adding views for client's properties
     }
@@ -65,13 +56,17 @@ public class AddClientActivity extends AppCompatActivity {
             case R.id.add_client_item:
                 String name = clientNameEditText.getText().toString();
                 String phoneNumber = clientPhoneNumberEditText.getText().toString();
-                client.setId(databaseReference.push().getKey());
+                client.setId(companyClientsDatabaseReference.push().getKey());
                 client.setName(name);
                 client.setPhoneNumber(phoneNumber);
-                if(isDataEmpty()){
+                if (isDataEmpty()){
                     Toast.makeText(getApplicationContext(), R.string.enter_some_data, Toast.LENGTH_SHORT).show();
+                } else if (isClientForCampaign()) {
+                    addClientToCampaign();
+                    addClientToCompany();
+                    finish();
                 } else {
-                    databaseReference.child(client.getId()).setValue(client);
+                    addClientToCompany();
                     finish();
                 }
                 break;
@@ -80,6 +75,21 @@ public class AddClientActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    private void addClientToCompany() {
+        companyClientsDatabaseReference.child(client.getId()).setValue(client);
+
+    }
+
+    private void addClientToCampaign() {
+        DatabaseReference campaignClientsDatabaseReference = firebaseDatabase.getReference()
+                .child("Companies")
+                .child("TestCompany")
+                .child("Campaigns")
+                .child(currentCampaignId)
+                .child("Clients");
+        campaignClientsDatabaseReference.child(client.getId()).setValue(client);
     }
 
     private boolean isDataEmpty() {
