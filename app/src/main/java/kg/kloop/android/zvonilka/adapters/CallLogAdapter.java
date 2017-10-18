@@ -1,13 +1,16 @@
 package kg.kloop.android.zvonilka.adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.Inflater;
 
 import kg.kloop.android.zvonilka.R;
@@ -21,6 +24,10 @@ import kg.kloop.android.zvonilka.objects.Call;
 public class CallLogAdapter extends RecyclerView.Adapter<ViewHolder> {
     Context context;
     ArrayList<Call> callArrayList;
+    String callType;
+    String callDate;
+    String callDuration;
+    String callResult;
 
     public CallLogAdapter(Context context, ArrayList<Call> callArrayList) {
         this.context = context;
@@ -36,12 +43,35 @@ public class CallLogAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Call currentCall =  callArrayList.get(position);
+        formatData(currentCall);
         holder.clientTextView.setText(currentCall.getPhoneNumber());
-        holder.callTypeTextView.setText(currentCall.getType());
-        holder.callDateTextView.setText(currentCall.getDate());
-        holder.callDurationTextView.setText(currentCall.getDuration());
+        holder.callTypeTextView.setText(callType);
+        holder.callDateTextView.setText(callDate);
+        holder.callDurationTextView.setText(callDuration);
         holder.callDescriptionTextView.setText(currentCall.getDescription());
-        holder.callResultTextView.setText(String.valueOf(currentCall.getCallResult()));
+        holder.callResultTextView.setText(callResult);
+    }
+
+    private void formatData(Call currentCall) {
+        callType = currentCall.getType();
+        callDate = String.valueOf(
+                        DateUtils.getRelativeTimeSpanString(
+                        Long.valueOf(currentCall.getDate()),
+                        System.currentTimeMillis(),
+                        DateUtils.SECOND_IN_MILLIS));
+        callDuration = currentCall.getDuration() + " sec";
+        switch (currentCall.getCallResult()){
+            case 0:
+                callResult = "Successful call";
+                break;
+            case 1:
+                callResult = "Call back";
+                break;
+            case 2:
+                callResult = "Don't call";
+                break;
+        }
+
     }
 
     @Override
