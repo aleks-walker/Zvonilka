@@ -10,7 +10,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -33,7 +32,7 @@ public class CallResultActivity extends AppCompatActivity {
     RadioButton callBackRadioButton;
     RadioButton dontCallRadioButton;
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
+    DatabaseReference callsDatabaseReference;
     String currentCampaign = CampaignActivity.getCurrentCampaignId();
     Call call;
     String phoneNumber;
@@ -58,7 +57,7 @@ public class CallResultActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         call = new Call();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("Companies")
+        callsDatabaseReference = firebaseDatabase.getReference("Companies")
                 .child("TestCompany")
                 .child("Campaigns")
                 .child(currentCampaign)
@@ -117,10 +116,10 @@ public class CallResultActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.add_client_item:
-                String callId = databaseReference.push().getKey();
+                String callId = callsDatabaseReference.push().getKey();
                 callDescription = callDescriptionEditText.getText().toString();
                 call = new Call(callId, phoneNumber, callType, callDate, callDuration, callDescription, callResult);
-                databaseReference.child(callId).setValue(call);
+                callsDatabaseReference.child(callId).setValue(call);
                 finish();
                 break;
         }

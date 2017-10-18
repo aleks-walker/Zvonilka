@@ -35,6 +35,11 @@ public class Call {
         this.callResult = callResult;
     }
 
+    /**
+     * successful call == 0
+     * call back == 1
+     * don't call == 2
+     */
     public int getCallResult() {
         return callResult;
     }
