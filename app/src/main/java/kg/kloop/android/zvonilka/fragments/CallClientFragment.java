@@ -1,9 +1,7 @@
 package kg.kloop.android.zvonilka.fragments;
 
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,15 +14,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 
 import kg.kloop.android.zvonilka.R;
-import kg.kloop.android.zvonilka.activities.AddClientActivity;
 import kg.kloop.android.zvonilka.adapters.ClientsRecyclerViewAdapter;
 import kg.kloop.android.zvonilka.objects.Client;
-
-import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -37,8 +33,8 @@ public class CallClientFragment extends Fragment {
     private ArrayList<Client> clientArrayList;
     private ClientsRecyclerViewAdapter adapter;
     private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
     private String currentCampaignId;
+    private Query callQuery;
 
     public CallClientFragment() {
     }
@@ -52,8 +48,14 @@ public class CallClientFragment extends Fragment {
         clientsToCallRecyclerView = view.findViewById(R.id.clients_to_call_recycler_view);
         firebaseDatabase = FirebaseDatabase.getInstance();
         currentCampaignId = getActivity().getIntent().getStringExtra("currentCampaignId");
-        //TODO: fix this path
-        databaseReference = firebaseDatabase.getReference().child("Companies").child("TestCompany").child("Clients");
+        callQuery = firebaseDatabase.getReference()
+                .child("Companies")
+                .child("TestCompany")
+                .child("Campaigns")
+                .child(currentCampaignId)
+                .child("Clients")
+                .orderByChild("category")
+                .equalTo(0); // 0 == successful call
         clientArrayList = new ArrayList<>();
         getDataFromFirebase();
 
@@ -67,7 +69,7 @@ public class CallClientFragment extends Fragment {
 
 
     private void getDataFromFirebase() {
-        databaseReference.addChildEventListener(new ChildEventListener() {
+        callQuery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 clientArrayList.add(0, dataSnapshot.getValue(Client.class));

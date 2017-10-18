@@ -34,13 +34,11 @@ public class CallBackClientFragment extends Fragment {
     private ArrayList<Client> clientArrayList;
     private ClientsRecyclerViewAdapter adapter;
     private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
     private String currentCampaignId;
     private Query callBackQuery;
 
 
     public CallBackClientFragment() {
-        // Required empty public constructor
     }
 
 
@@ -52,7 +50,6 @@ public class CallBackClientFragment extends Fragment {
         callBackClientsRecyclerView = view.findViewById(R.id.call_back_clients_recycler_view);
         firebaseDatabase = FirebaseDatabase.getInstance();
         currentCampaignId = CampaignInfo.getCurrentCampaignId();
-        //databaseReference = firebaseDatabase.getReference().child("Companies").child("TestCompany").child("Campaigns").child(currentCampaignId).child("Clients");
         callBackQuery = firebaseDatabase.getReference()
                 .child("Companies")
                 .child("TestCompany")
