@@ -1,16 +1,25 @@
 package kg.kloop.android.zvonilka.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 import kg.kloop.android.zvonilka.R;
 import kg.kloop.android.zvonilka.objects.Client;
@@ -23,6 +32,8 @@ public class AddClientActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference companyClientsDatabaseReference;
     String currentCampaignId;
+    LinearLayout propertiesLinearLayout;
+    ImageButton addPropertyImageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +42,8 @@ public class AddClientActivity extends AppCompatActivity {
 
         clientNameEditText = (EditText) findViewById(R.id.client_name_edit_text);
         clientPhoneNumberEditText = (EditText) findViewById(R.id.client_phone_number_edit_text);
+        propertiesLinearLayout = (LinearLayout) findViewById(R.id.properties_linear_layout);
+        addPropertyImageButton = (ImageButton) findViewById(R.id.add_property_image_button);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -41,7 +54,35 @@ public class AddClientActivity extends AppCompatActivity {
                 .child("TestCompany")
                 .child("Clients");
 
-        //TODO: implement dynamically adding views for client's properties
+        ArrayList<String> propertiesArrayList = new ArrayList<>();
+        propertiesArrayList.add("property");
+        propertiesArrayList.add("another");
+        final ArrayAdapter arrayAdapter = new ArrayAdapter<>(AddClientActivity.this, android.R.layout.simple_dropdown_item_1line, propertiesArrayList);
+        addPropertyImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                propertiesLinearLayout.addView(propertyView(AddClientActivity.this, arrayAdapter), 0);
+            }
+        });
+
+    }
+
+    private View propertyView(Context context, ArrayAdapter arrayAdapter) {
+        final AutoCompleteTextView autoCompleteTextView = new AutoCompleteTextView(context);
+        autoCompleteTextView.setAdapter(arrayAdapter);
+        autoCompleteTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                autoCompleteTextView.showDropDown();
+            }
+        });
+        autoCompleteTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus) autoCompleteTextView.showDropDown();
+            }
+        });
+        return autoCompleteTextView;
     }
 
     @Override
