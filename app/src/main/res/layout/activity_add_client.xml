@@ -78,7 +78,7 @@
             android:layout_marginRight="8dp" />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/add_property_image_button"
             android:layout_width="220dp"
             android:layout_height="45dp"
             app:srcCompat="@drawable/ic_add_dark"
@@ -93,12 +93,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/properties"
-            app:layout_constraintTop_toTopOf="@+id/imageButton"
+            app:layout_constraintTop_toTopOf="@+id/add_property_image_button"
             android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageButton"
+            app:layout_constraintBottom_toBottomOf="@+id/add_property_image_button"
             android:layout_marginBottom="8dp"
             app:layout_constraintVertical_bias="0.578"
-            app:layout_constraintRight_toLeftOf="@+id/imageButton"
+            app:layout_constraintRight_toLeftOf="@+id/add_property_image_button"
             android:layout_marginRight="8dp"
             android:layout_marginLeft="8dp"
             app:layout_constraintLeft_toLeftOf="parent" />
