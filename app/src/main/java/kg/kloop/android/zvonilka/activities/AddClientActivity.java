@@ -8,8 +8,11 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -52,23 +55,45 @@ public class AddClientActivity extends AppCompatActivity {
                 .child("Companies")
                 .child("TestCompany")
                 .child("Clients");
+
+        ArrayList<String> propertiesArrayList = new ArrayList<>();
+        propertiesArrayList.add("property");
+        propertiesArrayList.add("another");
+        final ArrayAdapter arrayAdapter = new ArrayAdapter<>(AddClientActivity.this, android.R.layout.simple_dropdown_item_1line, propertiesArrayList);
         addPropertyImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                propertiesLinearLayout.addView(propertyView(AddClientActivity.this), 0);
+                propertiesLinearLayout.addView(propertyView(AddClientActivity.this, arrayAdapter));
             }
         });
 
     }
 
-    private View propertyView(Context context) {
+    private View propertyView(Context context, ArrayAdapter arrayAdapter) {
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        EditText titleEditText = new EditText(context);
-        titleEditText.setHint(R.string.title);
-        linearLayout.addView(titleEditText);
+
+        final AutoCompleteTextView autoCompleteTextView = new AutoCompleteTextView(context);
+        autoCompleteTextView.setAdapter(arrayAdapter);
+        autoCompleteTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                autoCompleteTextView.showDropDown();
+            }
+        });
+        autoCompleteTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus) autoCompleteTextView.showDropDown();
+            }
+        });
+        autoCompleteTextView.setHint(R.string.enter_property_title);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        linearLayout.addView(autoCompleteTextView, layoutParams);
+
         EditText bodyEditText = new EditText(context);
         linearLayout.addView(bodyEditText);
+
         return linearLayout;
     }
 
