@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -70,10 +71,8 @@ public class AddClientActivity extends AppCompatActivity {
     }
 
     private View propertyView(Context context, ArrayAdapter arrayAdapter) {
-        LinearLayout linearLayout = new LinearLayout(context);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-
-        final AutoCompleteTextView autoCompleteTextView = new AutoCompleteTextView(context);
+        View view = LayoutInflater.from(context).inflate(R.layout.client_properties_item, null);
+        final AutoCompleteTextView autoCompleteTextView = view.findViewById(R.id.client_property_autocomplete_text_view);
         autoCompleteTextView.setAdapter(arrayAdapter);
         autoCompleteTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,14 +86,17 @@ public class AddClientActivity extends AppCompatActivity {
                 if(hasFocus) autoCompleteTextView.showDropDown();
             }
         });
-        autoCompleteTextView.setHint(R.string.enter_property_title);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        linearLayout.addView(autoCompleteTextView, layoutParams);
+        ImageButton imageButton = view.findViewById(R.id.remove_property_image_button);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View imageButton) {
+                autoCompleteTextView.requestFocus();
+                propertiesLinearLayout.removeViewInLayout(propertiesLinearLayout.getFocusedChild());
+                propertiesLinearLayout.requestLayout();
+            }
+        });
 
-        EditText bodyEditText = new EditText(context);
-        linearLayout.addView(bodyEditText);
-
-        return linearLayout;
+        return view;
     }
 
     @Override
