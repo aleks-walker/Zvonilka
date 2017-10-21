@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 import kg.kloop.android.zvonilka.R;
 import kg.kloop.android.zvonilka.objects.Client;
@@ -75,7 +73,7 @@ public class AddClientActivity extends AppCompatActivity {
     }
 
     private View propertyView(Context context, ArrayAdapter arrayAdapter) {
-        View view = LayoutInflater.from(context).inflate(R.layout.client_properties_item, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.client_add_properties_item, null);
         propertiesAutoCompleteTextView = view.findViewById(R.id.client_property_autocomplete_text_view);
         propertiesAutoCompleteTextView.setAdapter(arrayAdapter);
         propertiesAutoCompleteTextView.setOnClickListener(new View.OnClickListener() {

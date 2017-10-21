@@ -9,10 +9,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +40,7 @@ public class ClientActivity extends AppCompatActivity {
     private String currentCampaignId;
     ImageButton callImageButton;
     Client client;
+    private LinearLayout clientPropertiesLinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class ClientActivity extends AppCompatActivity {
         Intent intent = getIntent();
         clientId = intent.getStringExtra("clientId");
         currentCampaignId = CampaignInfo.getCurrentCampaignId();
+        clientPropertiesLinearLayout = (LinearLayout)findViewById(R.id.client_properties_linear_layout);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference()
@@ -67,6 +71,7 @@ public class ClientActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 client = dataSnapshot.getValue(Client.class);
                 nameTextView.setText(client.getName());
+                showProperties(client);
             }
 
             @Override
@@ -88,6 +93,27 @@ public class ClientActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void showProperties(Client client) {
+        clientPropertiesLinearLayout.removeAllViews();
+        try {
+            for (String propertyTitle : client.getProperties().keySet()) {
+                String propertyData = client.getProperties().get(propertyTitle);
+                clientPropertiesLinearLayout.addView(setUpPropertyView(propertyTitle, propertyData));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private View setUpPropertyView(String propertyTitle, String propertyData) {
+        View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.client_info_property_item, null);
+        TextView titleTextView = view.findViewById(R.id.client_info_title_text_view);
+        TextView propertyTextView = view.findViewById(R.id.client_info_property_text_view);
+        titleTextView.setText(propertyTitle);
+        propertyTextView.setText(propertyData);
+        return view;
     }
 
     @Override
