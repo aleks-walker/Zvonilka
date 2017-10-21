@@ -2,16 +2,14 @@ package kg.kloop.android.zvonilka.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.GradientDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -23,12 +21,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 import kg.kloop.android.zvonilka.R;
 import kg.kloop.android.zvonilka.objects.Client;
 
 public class AddClientActivity extends AppCompatActivity {
 
+    private static final String TAG = "AddClientActivity";
     EditText clientNameEditText;
     EditText clientPhoneNumberEditText;
     Client client;
@@ -37,6 +39,8 @@ public class AddClientActivity extends AppCompatActivity {
     String currentCampaignId;
     LinearLayout propertiesLinearLayout;
     ImageButton addPropertyImageButton;
+    EditText propertyDataEditText;
+    AutoCompleteTextView propertiesAutoCompleteTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,25 +76,25 @@ public class AddClientActivity extends AppCompatActivity {
 
     private View propertyView(Context context, ArrayAdapter arrayAdapter) {
         View view = LayoutInflater.from(context).inflate(R.layout.client_properties_item, null);
-        final AutoCompleteTextView autoCompleteTextView = view.findViewById(R.id.client_property_autocomplete_text_view);
-        autoCompleteTextView.setAdapter(arrayAdapter);
-        autoCompleteTextView.setOnClickListener(new View.OnClickListener() {
+        propertiesAutoCompleteTextView = view.findViewById(R.id.client_property_autocomplete_text_view);
+        propertiesAutoCompleteTextView.setAdapter(arrayAdapter);
+        propertiesAutoCompleteTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                autoCompleteTextView.showDropDown();
+                propertiesAutoCompleteTextView.showDropDown();
             }
         });
-        autoCompleteTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        propertiesAutoCompleteTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus) autoCompleteTextView.showDropDown();
+                if(hasFocus) propertiesAutoCompleteTextView.showDropDown();
             }
         });
-        ImageButton imageButton = view.findViewById(R.id.remove_property_image_button);
-        imageButton.setOnClickListener(new View.OnClickListener() {
+        ImageButton removePropertyImageButton = view.findViewById(R.id.remove_property_image_button);
+        removePropertyImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View imageButton) {
-                autoCompleteTextView.requestFocus();
+                propertiesAutoCompleteTextView.requestFocus();
                 propertiesLinearLayout.removeViewInLayout(propertiesLinearLayout.getFocusedChild());
                 propertiesLinearLayout.requestLayout();
             }
@@ -114,6 +118,7 @@ public class AddClientActivity extends AppCompatActivity {
                 client.setId(companyClientsDatabaseReference.push().getKey());
                 client.setName(name);
                 client.setPhoneNumber(phoneNumber);
+                client.setProperties(getProperties());
                 if (isDataEmpty()){
                     Toast.makeText(getApplicationContext(), R.string.enter_some_data, Toast.LENGTH_SHORT).show();
                 } else if (isClientForCampaign()) {
@@ -130,6 +135,21 @@ public class AddClientActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    private Map<String, String> getProperties() {
+        String title;
+        String body;
+        Map<String, String> clientPropertiesHashMap = new HashMap<>();
+        for (int i = 0; i < propertiesLinearLayout.getChildCount(); i++){
+            View view = propertiesLinearLayout.getChildAt(i);
+            propertiesAutoCompleteTextView = view.findViewById(R.id.client_property_autocomplete_text_view);
+            propertyDataEditText = view.findViewById(R.id.client_property_edit_text);
+            title = propertiesAutoCompleteTextView.getText().toString();
+            body = propertyDataEditText.getText().toString();
+            clientPropertiesHashMap.put(title, body);
+        }
+        return clientPropertiesHashMap;
     }
 
     private void addClientToCompany() {
