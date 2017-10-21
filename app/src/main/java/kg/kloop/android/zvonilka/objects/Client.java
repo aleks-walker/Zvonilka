@@ -1,5 +1,7 @@
 package kg.kloop.android.zvonilka.objects;
 
+import java.util.Map;
+
 /**
  * Created by alexwalker on 12.09.17.
  */
@@ -10,15 +12,17 @@ public class Client {
     private String name;
     private String phoneNumber;
     private int category;
+    private Map<String, String> properties;
 
     public Client() {
     }
 
-    public Client(String id, String name, String phoneNumber, int category) {
+    public Client(String id, String name, String phoneNumber, int category, Map<String, String> properties) {
         this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.category = category;
+        this.properties = properties;
     }
 
     public String getId() {
@@ -51,5 +55,13 @@ public class Client {
 
     public void setCategory(int category) {
         this.category = category;
+    }
+
+    public Map<String, String> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Map<String, String> properties) {
+        this.properties = properties;
     }
 }
