@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -15,6 +17,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 
@@ -24,6 +27,7 @@ import kg.kloop.android.zvonilka.objects.Client;
 
 public class AllClientsActivity extends AppCompatActivity {
 
+    private static final String TAG = AllClientsActivity.class.getSimpleName();
     private ArrayList<Client> allClientsArrayList;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -93,12 +97,59 @@ public class AllClientsActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_all_clients, menu);
+        return true;
+
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
+            case R.id.sort_clients_item:
+                sortClients();
+                break;
             case android.R.id.home:
                 finish();
                 break;
         }
         return true;
+    }
+
+    private void sortClients() {
+        if (!allClientsArrayList.isEmpty()) {
+            allClientsArrayList.clear();
+            adapter.notifyDataSetChanged();
+        }
+        Query cityQuery = databaseReference.orderByChild("city").equalTo("Астана");
+        cityQuery.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                allClientsArrayList.add(0, dataSnapshot.getValue(Client.class));
+                adapter.notifyItemInserted(0);
+                recyclerView.scrollToPosition(0);
+                Log.v(TAG, "sorted");
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
