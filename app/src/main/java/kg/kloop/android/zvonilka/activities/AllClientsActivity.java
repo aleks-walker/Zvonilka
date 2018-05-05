@@ -71,6 +71,7 @@ public class AllClientsActivity extends AppCompatActivity implements SortingDial
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(AllClientsActivity.this, AddClientActivity.class);
+                intent.putExtra("activity", TAG);
                 startActivity(intent);
             }
         });
@@ -134,12 +135,19 @@ public class AllClientsActivity extends AppCompatActivity implements SortingDial
 
     @Override
     public void onDialogPositiveClick(AppCompatDialogFragment dialog) {
-        HashMap<String, String> paramsHashMap = new HashMap<>();
+        String key = "";
+        String value = "";
         TextView cityParamTextView = dialog.getDialog().findViewById(R.id.city_sorting_dialog_autocomplete_text_view);
-        paramsHashMap.put("city", cityParamTextView.getText().toString());
+        if (cityParamTextView.getText().length() > 0) {
+            key = "city";
+            value = cityParamTextView.getText().toString();
+        }
         TextView interestParamTextView = dialog.getDialog().findViewById(R.id.interest_sorting_dialog_autocomplete_text_view);
-        paramsHashMap.put("interests", interestParamTextView.getText().toString());
-        sortClients(paramsHashMap);
+        if (interestParamTextView.getText().length() > 0) {
+            key = "interests";
+            value = interestParamTextView.getText().toString();
+        }
+        sortClients(key, value);
     }
 
     @Override
@@ -147,53 +155,60 @@ public class AllClientsActivity extends AppCompatActivity implements SortingDial
         dialog.dismiss();
     }
 
-    private void sortClients(HashMap<String, String> paramsHashMap) {
+    private void sortClients(String key, String value) {
+        Query query = null;
         if (!allClientsArrayList.isEmpty()) {
             allClientsArrayList.clear();
             adapter.notifyDataSetChanged();
         }
-        //String key = paramsHashMap.keySet().toArray()[0].toString();
-
-        for (String key : paramsHashMap.keySet()) {
-            sortByKeys(key, paramsHashMap);
-
+        if (key == "city") {
+            query = databaseReference
+                    .orderByChild(key)
+                    .equalTo(value);
+        } else if (key == "interests") {
+            query = databaseReference
+                    .orderByChild(key + "/" + value)
+                    .equalTo(1);
         }
+        Log.v(TAG, "key: " + key + "\n" + "value: " + value);
+        if (query != null) {
+            query.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    allClientsArrayList.add(0, dataSnapshot.getValue(Client.class));
+                    adapter.notifyItemInserted(0);
+                    recyclerView.scrollToPosition(0);
+                    Log.v(TAG, "sorting result: " + allClientsArrayList.get(0).getName());
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+
 
     }
 
     private void sortByKeys(String key, HashMap<String, String> paramsHashMap) {
-        Query cityQuery = databaseReference
-                .orderByChild(key)
-                .equalTo(paramsHashMap.get(key));
-        cityQuery.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                allClientsArrayList.add(0, dataSnapshot.getValue(Client.class));
-                adapter.notifyItemInserted(0);
-                recyclerView.scrollToPosition(0);
-                Log.v(TAG, "sorting result: " + allClientsArrayList.get(0).getName());
-            }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
 }

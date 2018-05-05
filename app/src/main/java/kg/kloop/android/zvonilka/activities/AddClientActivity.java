@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import kg.kloop.android.zvonilka.R;
 import kg.kloop.android.zvonilka.objects.Client;
@@ -157,19 +158,19 @@ public class AddClientActivity extends AppCompatActivity {
         return true;
     }
 
-    private ArrayList<String> getProperties() {
+    private HashMap<String, Integer> getProperties() {
         String title;
         String body;
-        ArrayList<String> clientPropertiesArrayList = new ArrayList<>();
+        HashMap<String, Integer> clientPropertiesHashMap = new HashMap<>();
         for (int i = 0; i < propertiesLinearLayout.getChildCount(); i++){
             View view = propertiesLinearLayout.getChildAt(i);
             interestsAutoCompleteTextView = view.findViewById(R.id.client_property_autocomplete_text_view);
             //propertyDataEditText = view.findViewById(R.id.client_property_edit_text);
             title = interestsAutoCompleteTextView.getText().toString();
             //body = propertyDataEditText.getText().toString();
-            clientPropertiesArrayList.add(title);
+            clientPropertiesHashMap.put(title, 1);
         }
-        return clientPropertiesArrayList;
+        return clientPropertiesHashMap;
     }
 
     private void addClientToCompany() {

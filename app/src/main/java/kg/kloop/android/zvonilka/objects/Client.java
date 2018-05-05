@@ -1,6 +1,7 @@
 package kg.kloop.android.zvonilka.objects;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -19,12 +20,12 @@ public class Client {
     private String otherInfo;
     private String toDoInfo;
     private int category;
-    private ArrayList<String> interests;
+    private HashMap<String, Integer> interests;
 
     public Client() {
     }
 
-    public Client(String id, String name, String city, String salon, String position, String phoneNumber, String email, String otherInfo, String toDoInfo, int category, ArrayList<String> interests) {
+    public Client(String id, String name, String city, String salon, String position, String phoneNumber, String email, String otherInfo, String toDoInfo, int category, HashMap<String, Integer> interests) {
         this.id = id;
         this.name = name;
         this.city = city;
@@ -118,11 +119,11 @@ public class Client {
         this.category = category;
     }
 
-    public ArrayList<String> getInterests() {
+    public HashMap<String, Integer> getInterests() {
         return interests;
     }
 
-    public void setInterests(ArrayList<String> interests) {
+    public void setInterests(HashMap<String, Integer> interests) {
         this.interests = interests;
     }
 }

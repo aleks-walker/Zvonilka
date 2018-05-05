@@ -122,7 +122,7 @@ public class ClientActivity extends AppCompatActivity {
     private void showInterests(Client client) {
         clientPropertiesLinearLayout.removeAllViews();
         try {
-            for (String interest : client.getInterests()) {
+            for (String interest : client.getInterests().keySet()) {
                 clientPropertiesLinearLayout.addView(setUpPropertyView(interest));
             }
         } catch (Exception e) {
