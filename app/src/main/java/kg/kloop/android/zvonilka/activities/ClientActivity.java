@@ -36,6 +36,8 @@ public class ClientActivity extends AppCompatActivity {
     private static final String TAG = ClientActivity.class.getSimpleName();
     private TextView nameTextView;
     private TextView cityTextView;
+    private TextView todoTextView;
+    private TextView otherTextView;
     private String clientId;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -55,6 +57,8 @@ public class ClientActivity extends AppCompatActivity {
 
         nameTextView = (TextView) findViewById(R.id.property_name_text_view);
         cityTextView = findViewById(R.id.property_city_text_view);
+        todoTextView = findViewById(R.id.property_todo_text_view);
+        otherTextView = findViewById(R.id.property_other_text_view);
         callImageButton = (ImageButton) findViewById(R.id.call_image_button);
         Intent intent = getIntent();
         clientId = intent.getStringExtra("clientId");
@@ -107,6 +111,8 @@ public class ClientActivity extends AppCompatActivity {
                 if (client != null) {
                     nameTextView.setText(client.getName());
                     cityTextView.setText(client.getCity());
+                    todoTextView.setText(client.getToDoInfo());
+                    otherTextView.setText(client.getOtherInfo());
                     showInterests(client);
                     Log.v(TAG, "client's name: " + client.getName());
                 }

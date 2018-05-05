@@ -207,8 +207,4 @@ public class AllClientsActivity extends AppCompatActivity implements SortingDial
 
     }
 
-    private void sortByKeys(String key, HashMap<String, String> paramsHashMap) {
-
-    }
-
 }
