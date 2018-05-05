@@ -7,11 +7,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TableLayout;
 
 import kg.kloop.android.zvonilka.R;
 import kg.kloop.android.zvonilka.adapters.CustomFragmetPagerAdapter;
@@ -54,7 +52,7 @@ public class CampaignActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_all_clients, menu);
+        getMenuInflater().inflate(R.menu.menu_campaign, menu);
         return true;
     }
 
