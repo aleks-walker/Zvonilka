@@ -20,8 +20,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import kg.kloop.android.zvonilka.R;
 import kg.kloop.android.zvonilka.objects.Client;
@@ -44,7 +42,7 @@ public class AddClientActivity extends AppCompatActivity {
     private LinearLayout propertiesLinearLayout;
     private ImageButton addPropertyImageButton;
     private EditText propertyDataEditText;
-    private AutoCompleteTextView propertiesAutoCompleteTextView;
+    private AutoCompleteTextView interestsAutoCompleteTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,25 +84,25 @@ public class AddClientActivity extends AppCompatActivity {
 
     private View propertyView(Context context, ArrayAdapter arrayAdapter) {
         View view = LayoutInflater.from(context).inflate(R.layout.client_add_properties_item, null);
-        propertiesAutoCompleteTextView = view.findViewById(R.id.client_property_autocomplete_text_view);
-        propertiesAutoCompleteTextView.setAdapter(arrayAdapter);
-        propertiesAutoCompleteTextView.setOnClickListener(new View.OnClickListener() {
+        interestsAutoCompleteTextView = view.findViewById(R.id.client_property_autocomplete_text_view);
+        interestsAutoCompleteTextView.setAdapter(arrayAdapter);
+        interestsAutoCompleteTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                propertiesAutoCompleteTextView.showDropDown();
+                interestsAutoCompleteTextView.showDropDown();
             }
         });
-        propertiesAutoCompleteTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        interestsAutoCompleteTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus) propertiesAutoCompleteTextView.showDropDown();
+                if(hasFocus) interestsAutoCompleteTextView.showDropDown();
             }
         });
         ImageButton removePropertyImageButton = view.findViewById(R.id.remove_property_image_button);
         removePropertyImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View imageButton) {
-                propertiesAutoCompleteTextView.requestFocus();
+                interestsAutoCompleteTextView.requestFocus();
                 propertiesLinearLayout.removeViewInLayout(propertiesLinearLayout.getFocusedChild());
                 propertiesLinearLayout.requestLayout();
             }
@@ -159,19 +157,19 @@ public class AddClientActivity extends AppCompatActivity {
         return true;
     }
 
-    private Map<String, String> getProperties() {
+    private ArrayList<String> getProperties() {
         String title;
         String body;
-        Map<String, String> clientPropertiesHashMap = new HashMap<>();
+        ArrayList<String> clientPropertiesArrayList = new ArrayList<>();
         for (int i = 0; i < propertiesLinearLayout.getChildCount(); i++){
             View view = propertiesLinearLayout.getChildAt(i);
-            propertiesAutoCompleteTextView = view.findViewById(R.id.client_property_autocomplete_text_view);
-            propertyDataEditText = view.findViewById(R.id.client_property_edit_text);
-            title = propertiesAutoCompleteTextView.getText().toString();
-            body = propertyDataEditText.getText().toString();
-            clientPropertiesHashMap.put(title, body);
+            interestsAutoCompleteTextView = view.findViewById(R.id.client_property_autocomplete_text_view);
+            //propertyDataEditText = view.findViewById(R.id.client_property_edit_text);
+            title = interestsAutoCompleteTextView.getText().toString();
+            //body = propertyDataEditText.getText().toString();
+            clientPropertiesArrayList.add(title);
         }
-        return clientPropertiesHashMap;
+        return clientPropertiesArrayList;
     }
 
     private void addClientToCompany() {

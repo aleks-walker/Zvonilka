@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,7 +33,7 @@ public class ClientActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_CALL_CLIENT = 102;
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 103;
-    private static final String TAG = "ClientActivity";
+    private static final String TAG = ClientActivity.class.getSimpleName();
     TextView nameTextView;
     String clientId;
     FirebaseDatabase firebaseDatabase;
@@ -71,7 +72,7 @@ public class ClientActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 client = dataSnapshot.getValue(Client.class);
                 nameTextView.setText(client.getName());
-                showProperties(client);
+                showInterests(client);
             }
 
             @Override
@@ -95,24 +96,22 @@ public class ClientActivity extends AppCompatActivity {
 
     }
 
-    private void showProperties(Client client) {
+    private void showInterests(Client client) {
         clientPropertiesLinearLayout.removeAllViews();
         try {
-            for (String propertyTitle : client.getInterests().keySet()) {
-                String propertyData = client.getInterests().get(propertyTitle);
-                clientPropertiesLinearLayout.addView(setUpPropertyView(propertyTitle, propertyData));
+            for (String interest : client.getInterests()) {
+                clientPropertiesLinearLayout.addView(setUpPropertyView(interest));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private View setUpPropertyView(String propertyTitle, String propertyData) {
+    private View setUpPropertyView(String interest) {
         View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.client_info_property_item, null);
-        TextView titleTextView = view.findViewById(R.id.client_info_title_text_view);
         TextView propertyTextView = view.findViewById(R.id.client_info_property_text_view);
-        titleTextView.setText(propertyTitle);
-        propertyTextView.setText(propertyData);
+        Log.v(TAG, interest);
+        propertyTextView.setText(interest);
         return view;
     }
 
