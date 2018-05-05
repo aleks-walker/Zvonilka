@@ -34,20 +34,22 @@ import kg.kloop.android.zvonilka.objects.Client;
 public class CallResultActivity extends AppCompatActivity {
 
     private static final String TAG = "CallResultActivity";
-    EditText callDescriptionEditText;
-    RadioGroup callResulRadioGroup;
-    RadioButton successfulCallRadioButton;
-    RadioButton callBackRadioButton;
-    RadioButton dontCallRadioButton;
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference callsDatabaseReference;
-    String currentCampaignId = CampaignInfo.getCurrentCampaignId();
-    Call call;
-    String phoneNumber;
-    String callType;
-    String callDate;
-    String callDuration;
-    String callDescription;
+    private EditText callDescriptionEditText;
+    private EditText callToDoEditText;
+    private RadioGroup callResulRadioGroup;
+    private RadioButton successfulCallRadioButton;
+    private RadioButton callBackRadioButton;
+    private RadioButton dontCallRadioButton;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference callsDatabaseReference;
+    private String currentCampaignId = CampaignInfo.getCurrentCampaignId();
+    private Call call;
+    private String phoneNumber;
+    private String callType;
+    private String callDate;
+    private String callDuration;
+    private String callDescription;
+    private String callTodo;
     int callResult;
     private static final int MY_PERMISSIONS_REQUEST_READ_CALL_LOG = 104;
 
@@ -56,12 +58,13 @@ public class CallResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call_result);
 
-        callDescriptionEditText = (EditText)findViewById(R.id.call_description_edit_text);
-        callResulRadioGroup = (RadioGroup)findViewById(R.id.call_result_radio_group);
-        successfulCallRadioButton = (RadioButton)findViewById(R.id.successful_call_radio_button);
-        callBackRadioButton = (RadioButton) findViewById(R.id.call_back_radio_button);
-        dontCallRadioButton = (RadioButton) findViewById(R.id.dont_call_radio_button);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        callDescriptionEditText = findViewById(R.id.call_description_edit_text);
+        callToDoEditText = findViewById(R.id.call_todo_edit_text);
+        callResulRadioGroup = findViewById(R.id.call_result_radio_group);
+        successfulCallRadioButton = findViewById(R.id.successful_call_radio_button);
+        callBackRadioButton =  findViewById(R.id.call_back_radio_button);
+        dontCallRadioButton =  findViewById(R.id.dont_call_radio_button);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         call = new Call();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -99,8 +102,19 @@ public class CallResultActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 clientArrayList.add(dataSnapshot.getValue(Client.class));
+                callTodo = callToDoEditText.getText().toString();
                 for (Client client : clientArrayList){
                     client.setCategory(callResult);
+                    client.setToDoInfo(callTodo);
+                    if (client.getCallArrayList() != null) {
+                        ArrayList<Call> callArrayList = client.getCallArrayList();
+                        callArrayList.add(call);
+                        client.setCallArrayList(callArrayList);
+                    } else {
+                        ArrayList<Call> callArrayList = new ArrayList<>();
+                        callArrayList.add(call);
+                        client.setCallArrayList(callArrayList);
+                    }
                     clientsInCampaignDatabaseReference.child(client.getId()).setValue(client);
                 }
             }

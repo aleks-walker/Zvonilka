@@ -21,8 +21,24 @@ public class Client {
     private String toDoInfo;
     private int category;
     private HashMap<String, Integer> interests;
+    private ArrayList<Call> callArrayList;
 
     public Client() {
+    }
+
+    public Client(String id, String name, String city, String salon, String position, String phoneNumber, String email, String otherInfo, String toDoInfo, int category, HashMap<String, Integer> interests, ArrayList<Call> callArrayList) {
+        this.id = id;
+        this.name = name;
+        this.city = city;
+        this.salon = salon;
+        this.position = position;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.otherInfo = otherInfo;
+        this.toDoInfo = toDoInfo;
+        this.category = category;
+        this.interests = interests;
+        this.callArrayList = callArrayList;
     }
 
     public Client(String id, String name, String city, String salon, String position, String phoneNumber, String email, String otherInfo, String toDoInfo, int category, HashMap<String, Integer> interests) {
@@ -125,5 +141,13 @@ public class Client {
 
     public void setInterests(HashMap<String, Integer> interests) {
         this.interests = interests;
+    }
+
+    public ArrayList<Call> getCallArrayList() {
+        return callArrayList;
+    }
+
+    public void setCallArrayList(ArrayList<Call> callArrayList) {
+        this.callArrayList = callArrayList;
     }
 }

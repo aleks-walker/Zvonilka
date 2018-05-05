@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import kg.kloop.android.zvonilka.R;
 import kg.kloop.android.zvonilka.helpers.CampaignInfo;
+import kg.kloop.android.zvonilka.objects.Call;
 import kg.kloop.android.zvonilka.objects.Client;
 
 public class ClientActivity extends AppCompatActivity {
@@ -38,6 +39,8 @@ public class ClientActivity extends AppCompatActivity {
     private TextView cityTextView;
     private TextView todoTextView;
     private TextView otherTextView;
+    private TextView callTextView;
+    private LinearLayout callResultLinearLayout;
     private String clientId;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -51,15 +54,17 @@ public class ClientActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        nameTextView = (TextView) findViewById(R.id.property_name_text_view);
+        nameTextView =  findViewById(R.id.property_name_text_view);
         cityTextView = findViewById(R.id.property_city_text_view);
         todoTextView = findViewById(R.id.property_todo_text_view);
         otherTextView = findViewById(R.id.property_other_text_view);
-        callImageButton = (ImageButton) findViewById(R.id.call_image_button);
+        //callTextView = findViewById(R.id.property_call_text_view);
+        callImageButton =  findViewById(R.id.call_image_button);
+        callResultLinearLayout = findViewById(R.id.property_call_results_linear_layout);
         Intent intent = getIntent();
         clientId = intent.getStringExtra("clientId");
         currentCampaignId = CampaignInfo.getCurrentCampaignId();
@@ -68,7 +73,7 @@ public class ClientActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         String sourceActivity = intent.getStringExtra("activity");
         Log.v(TAG, "source activity: " + sourceActivity);
-        if (sourceActivity == CampaignActivity.TAG) {
+        /*if (sourceActivity == CampaignActivity.TAG) {*/
             databaseReference = firebaseDatabase.getReference()
                     .child("Companies")
                     .child("TestCompany")
@@ -78,14 +83,14 @@ public class ClientActivity extends AppCompatActivity {
                     .child(clientId);
             addValueEventListener(databaseReference);
 
-        } else {
+        /*} else {
             databaseReference = firebaseDatabase.getReference()
                     .child("Companies")
                     .child("TestCompany")
                     .child("Clients")
                     .child(clientId);
             addValueEventListener(databaseReference);
-        }
+        }*/
         callImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,6 +118,14 @@ public class ClientActivity extends AppCompatActivity {
                     cityTextView.setText(client.getCity());
                     todoTextView.setText(client.getToDoInfo());
                     otherTextView.setText(client.getOtherInfo());
+                    if (client.getCallArrayList() != null) {
+                        LayoutInflater inflater = getLayoutInflater();
+                        for (Call call : client.getCallArrayList()) {
+                            TextView callTextView = (TextView) inflater.inflate(R.layout.client_info_property_item, null);
+                            callTextView.setText(call.getDescription());
+                            callResultLinearLayout.addView(callTextView);
+                        }
+                    }
                     showInterests(client);
                     Log.v(TAG, "client's name: " + client.getName());
                 }
