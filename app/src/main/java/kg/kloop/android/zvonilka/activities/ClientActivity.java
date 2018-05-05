@@ -34,13 +34,14 @@ public class ClientActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_CALL_CLIENT = 102;
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 103;
     private static final String TAG = ClientActivity.class.getSimpleName();
-    TextView nameTextView;
-    String clientId;
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
+    private TextView nameTextView;
+    private TextView cityTextView;
+    private String clientId;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
     private String currentCampaignId;
-    ImageButton callImageButton;
-    Client client;
+    private ImageButton callImageButton;
+    private Client client;
     private LinearLayout clientPropertiesLinearLayout;
 
     @Override
@@ -53,6 +54,7 @@ public class ClientActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         nameTextView = (TextView) findViewById(R.id.property_name_text_view);
+        cityTextView = findViewById(R.id.property_city_text_view);
         callImageButton = (ImageButton) findViewById(R.id.call_image_button);
         Intent intent = getIntent();
         clientId = intent.getStringExtra("clientId");
@@ -71,8 +73,12 @@ public class ClientActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 client = dataSnapshot.getValue(Client.class);
-                nameTextView.setText(client.getName());
-                showInterests(client);
+                if (client != null) {
+                    nameTextView.setText(client.getName());
+                    cityTextView.setText(client.getCity());
+                    showInterests(client);
+                    Log.v(TAG, "client's name: " + client.getName());
+                }
             }
 
             @Override
@@ -110,7 +116,7 @@ public class ClientActivity extends AppCompatActivity {
     private View setUpPropertyView(String interest) {
         View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.client_info_property_item, null);
         TextView propertyTextView = view.findViewById(R.id.client_info_property_text_view);
-        Log.v(TAG, interest);
+        Log.v(TAG, "client's interests: " + interest);
         propertyTextView.setText(interest);
         return view;
     }

@@ -42,4 +42,5 @@
     <string name="client_email">E-mail</string>
     <string name="client_todo_info">To do</string>
     <string name="client_other_info">Other</string>
+    <string name="city">City</string>
 </resources>
