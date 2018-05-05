@@ -29,16 +29,22 @@ import kg.kloop.android.zvonilka.objects.Client;
 public class AddClientActivity extends AppCompatActivity {
 
     private static final String TAG = "AddClientActivity";
-    EditText clientNameEditText;
-    EditText clientPhoneNumberEditText;
-    Client client;
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference companyClientsDatabaseReference;
-    String currentCampaignId;
-    LinearLayout propertiesLinearLayout;
-    ImageButton addPropertyImageButton;
-    EditText propertyDataEditText;
-    AutoCompleteTextView propertiesAutoCompleteTextView;
+    private EditText clientNameEditText;
+    private EditText clientPhoneNumberEditText;
+    private EditText clientCityEditText;
+    private EditText clientSalonEditText;
+    private EditText clientPositionEditText;
+    private EditText clientEmailEditText;
+    private EditText clientOtherInfoEditText;
+    private EditText clientToDoInfoEditText;
+    private Client client;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference companyClientsDatabaseReference;
+    private String currentCampaignId;
+    private LinearLayout propertiesLinearLayout;
+    private ImageButton addPropertyImageButton;
+    private EditText propertyDataEditText;
+    private AutoCompleteTextView propertiesAutoCompleteTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +55,12 @@ public class AddClientActivity extends AppCompatActivity {
         clientPhoneNumberEditText = (EditText) findViewById(R.id.client_phone_number_edit_text);
         propertiesLinearLayout = (LinearLayout) findViewById(R.id.properties_linear_layout);
         addPropertyImageButton = (ImageButton) findViewById(R.id.add_property_image_button);
+        clientCityEditText = findViewById(R.id.client_city_edit_text);
+        clientSalonEditText = findViewById(R.id.client_salon_edit_text);
+        clientPositionEditText = findViewById(R.id.client_position_edit_text);
+        clientEmailEditText = findViewById(R.id.client_email_edit_text);
+        clientOtherInfoEditText = findViewById(R.id.client_other_edit_text);
+        clientToDoInfoEditText = findViewById(R.id.client_todo_edit_text);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -60,8 +72,8 @@ public class AddClientActivity extends AppCompatActivity {
                 .child("Clients");
 
         ArrayList<String> propertiesArrayList = new ArrayList<>();
-        propertiesArrayList.add("property");
-        propertiesArrayList.add("another");
+        propertiesArrayList.add("Метод Stabiliti");
+        propertiesArrayList.add("Ломи-ломи");
         final ArrayAdapter arrayAdapter = new ArrayAdapter<>(AddClientActivity.this, android.R.layout.simple_dropdown_item_1line, propertiesArrayList);
         addPropertyImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,9 +125,21 @@ public class AddClientActivity extends AppCompatActivity {
             case R.id.add_client_item:
                 String name = clientNameEditText.getText().toString();
                 String phoneNumber = clientPhoneNumberEditText.getText().toString();
+                String city = clientCityEditText.getText().toString();
+                String salon = clientSalonEditText.getText().toString();
+                String position = clientPositionEditText.getText().toString();
+                String email = clientEmailEditText.getText().toString();
+                String other = clientOtherInfoEditText.getText().toString();
+                String todo = clientToDoInfoEditText.getText().toString();
                 client.setId(companyClientsDatabaseReference.push().getKey());
                 client.setName(name);
                 client.setPhoneNumber(phoneNumber);
+                client.setCity(city);
+                client.setSalon(salon);
+                client.setPosition(position);
+                client.setEmail(email);
+                client.setOtherInfo(other);
+                client.setToDoInfo(todo);
                 client.setInterests(getProperties());
                 if (isDataEmpty()){
                     Toast.makeText(getApplicationContext(), R.string.enter_some_data, Toast.LENGTH_SHORT).show();
