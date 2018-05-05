@@ -3,6 +3,7 @@ package kg.kloop.android.zvonilka.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import kg.kloop.android.zvonilka.objects.Client;
  */
 
 public class ClientsRecyclerViewAdapter extends RecyclerView.Adapter<ClientsRecyclerViewAdapter.ViewHolder> {
+    private static final String TAG = ClientsRecyclerViewAdapter.class.getSimpleName();
     private Context context;
     private ArrayList<Client> clientArrayList;
     public ClientsRecyclerViewAdapter(Context context, ArrayList<Client> clientArrayList) {
@@ -61,6 +63,8 @@ public class ClientsRecyclerViewAdapter extends RecyclerView.Adapter<ClientsRecy
         public void onClick(View view) {
             Intent intent = new Intent(context, ClientActivity.class);
             intent.putExtra("clientId", clientArrayList.get(getAdapterPosition()).getId());
+            intent.putExtra("activity", context.getClass().getSimpleName());
+            Log.v(TAG, "source activity: " + context.getClass().getSimpleName());
             context.startActivity(intent);
         }
     }

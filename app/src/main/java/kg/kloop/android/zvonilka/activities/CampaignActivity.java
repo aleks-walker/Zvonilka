@@ -14,10 +14,11 @@ import android.view.View;
 import kg.kloop.android.zvonilka.R;
 import kg.kloop.android.zvonilka.adapters.CustomFragmetPagerAdapter;
 import kg.kloop.android.zvonilka.helpers.CampaignInfo;
+import kg.kloop.android.zvonilka.objects.Campaign;
 
 public class CampaignActivity extends AppCompatActivity {
 
-    private static final String TAG = "CampaignActivity";
+    public static final String TAG = "CampaignActivity";
     private FloatingActionButton addClientFloatingActionButton;
     private String currentCampaignId;
 

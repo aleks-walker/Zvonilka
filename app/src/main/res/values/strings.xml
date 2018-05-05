@@ -44,4 +44,9 @@
     <string name="client_other_info">Other</string>
     <string name="city">City</string>
     <string name="sort_clients">Sort</string>
+    <string name="sort_message">Choose sorting parameters</string>
+    <string name="choose_parameters">Choose parameters</string>
+    <string name="interest">Interest</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
 </resources>

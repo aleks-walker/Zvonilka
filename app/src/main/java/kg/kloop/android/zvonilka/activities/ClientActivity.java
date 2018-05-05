@@ -62,13 +62,44 @@ public class ClientActivity extends AppCompatActivity {
         clientPropertiesLinearLayout = (LinearLayout)findViewById(R.id.client_properties_linear_layout);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference()
-                .child("Companies")
-                .child("TestCompany")
-                .child("Campaigns")
-                .child(currentCampaignId)
-                .child("Clients")
-                .child(clientId);
+        String sourceActivity = intent.getStringExtra("activity");
+        Log.v(TAG, "source activity: " + sourceActivity);
+        if (sourceActivity == CampaignActivity.TAG) {
+            databaseReference = firebaseDatabase.getReference()
+                    .child("Companies")
+                    .child("TestCompany")
+                    .child("Campaigns")
+                    .child(currentCampaignId)
+                    .child("Clients")
+                    .child(clientId);
+            addValueEventListener(databaseReference);
+
+        } else {
+            databaseReference = firebaseDatabase.getReference()
+                    .child("Companies")
+                    .child("TestCompany")
+                    .child("Clients")
+                    .child(clientId);
+            addValueEventListener(databaseReference);
+        }
+        callImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO: deal with permissions
+                if(android.os.Build.VERSION.SDK_INT > 22) {
+                    if (ActivityCompat.checkSelfPermission(ClientActivity.this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                        callClient();
+                    } else {
+                        askForCallPhonePermission();
+                    }
+                } else callClient();
+            }
+        });
+
+    }
+
+    private void addValueEventListener(DatabaseReference databaseReference) {
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -86,20 +117,6 @@ public class ClientActivity extends AppCompatActivity {
 
             }
         });
-        callImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO: deal with permissions
-                if(android.os.Build.VERSION.SDK_INT > 22) {
-                    if (ActivityCompat.checkSelfPermission(ClientActivity.this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-                        callClient();
-                    } else {
-                        askForCallPhonePermission();
-                    }
-                } else callClient();
-            }
-        });
-
     }
 
     private void showInterests(Client client) {
