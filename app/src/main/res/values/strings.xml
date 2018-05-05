@@ -34,6 +34,6 @@
     <string name="call_log">Call log</string>
     <string name="successful_call">Successful call</string>
     <string name="add_property">Add property</string>
-    <string name="properties">Properties</string>
+    <string name="interests">Properties</string>
     <string name="enter_property_title">Enter property title</string>
 </resources>

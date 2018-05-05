@@ -10,19 +10,31 @@ public class Client {
 
     private String id;
     private String name;
+    private String city;
+    private String salon;
+    private String position;
     private String phoneNumber;
+    private String email;
+    private String otherInfo;
+    private String toDoInfo;
     private int category;
-    private Map<String, String> properties;
+    private Map<String, String> interests;
 
     public Client() {
     }
 
-    public Client(String id, String name, String phoneNumber, int category, Map<String, String> properties) {
+    public Client(String id, String name, String city, String salon, String position, String phoneNumber, String email, String otherInfo, String toDoInfo, int category, Map<String, String> interests) {
         this.id = id;
         this.name = name;
+        this.city = city;
+        this.salon = salon;
+        this.position = position;
         this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.otherInfo = otherInfo;
+        this.toDoInfo = toDoInfo;
         this.category = category;
-        this.properties = properties;
+        this.interests = interests;
     }
 
     public String getId() {
@@ -41,12 +53,60 @@ public class Client {
         this.name = name;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getSalon() {
+        return salon;
+    }
+
+    public void setSalon(String salon) {
+        this.salon = salon;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getOtherInfo() {
+        return otherInfo;
+    }
+
+    public void setOtherInfo(String otherInfo) {
+        this.otherInfo = otherInfo;
+    }
+
+    public String getToDoInfo() {
+        return toDoInfo;
+    }
+
+    public void setToDoInfo(String toDoInfo) {
+        this.toDoInfo = toDoInfo;
     }
 
     public int getCategory() {
@@ -57,11 +117,11 @@ public class Client {
         this.category = category;
     }
 
-    public Map<String, String> getProperties() {
-        return properties;
+    public Map<String, String> getInterests() {
+        return interests;
     }
 
-    public void setProperties(Map<String, String> properties) {
-        this.properties = properties;
+    public void setInterests(Map<String, String> interests) {
+        this.interests = interests;
     }
 }

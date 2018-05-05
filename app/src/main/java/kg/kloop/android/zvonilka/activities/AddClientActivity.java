@@ -116,7 +116,7 @@ public class AddClientActivity extends AppCompatActivity {
                 client.setId(companyClientsDatabaseReference.push().getKey());
                 client.setName(name);
                 client.setPhoneNumber(phoneNumber);
-                client.setProperties(getProperties());
+                client.setInterests(getProperties());
                 if (isDataEmpty()){
                     Toast.makeText(getApplicationContext(), R.string.enter_some_data, Toast.LENGTH_SHORT).show();
                 } else if (isClientForCampaign()) {

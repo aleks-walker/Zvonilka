@@ -98,8 +98,8 @@ public class ClientActivity extends AppCompatActivity {
     private void showProperties(Client client) {
         clientPropertiesLinearLayout.removeAllViews();
         try {
-            for (String propertyTitle : client.getProperties().keySet()) {
-                String propertyData = client.getProperties().get(propertyTitle);
+            for (String propertyTitle : client.getInterests().keySet()) {
+                String propertyData = client.getInterests().get(propertyTitle);
                 clientPropertiesLinearLayout.addView(setUpPropertyView(propertyTitle, propertyData));
             }
         } catch (Exception e) {
