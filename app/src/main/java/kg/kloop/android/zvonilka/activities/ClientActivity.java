@@ -73,24 +73,13 @@ public class ClientActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         String sourceActivity = intent.getStringExtra("activity");
         Log.v(TAG, "source activity: " + sourceActivity);
-        /*if (sourceActivity == CampaignActivity.TAG) {*/
-            databaseReference = firebaseDatabase.getReference()
-                    .child("Companies")
-                    .child("TestCompany")
-                    .child("Campaigns")
-                    .child(currentCampaignId)
-                    .child("Clients")
-                    .child(clientId);
-            addValueEventListener(databaseReference);
+        databaseReference = firebaseDatabase.getReference()
+                .child("Companies")
+                .child("TestCompany")
+                .child("Clients")
+                .child(clientId);
+        addValueEventListener(databaseReference);
 
-        /*} else {
-            databaseReference = firebaseDatabase.getReference()
-                    .child("Companies")
-                    .child("TestCompany")
-                    .child("Clients")
-                    .child(clientId);
-            addValueEventListener(databaseReference);
-        }*/
         callImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
