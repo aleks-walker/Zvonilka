@@ -1,5 +1,8 @@
 package kg.kloop.android.zvonilka.objects;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +11,7 @@ import java.util.Map;
  * Created by alexwalker on 12.09.17.
  */
 
-public class Client {
+public class Client implements Parcelable {
 
     private String id;
     private String name;
@@ -150,4 +153,54 @@ public class Client {
     public void setCallArrayList(ArrayList<Call> callArrayList) {
         this.callArrayList = callArrayList;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.city);
+        dest.writeString(this.salon);
+        dest.writeString(this.position);
+        dest.writeString(this.phoneNumber);
+        dest.writeString(this.email);
+        dest.writeString(this.otherInfo);
+        dest.writeString(this.toDoInfo);
+        dest.writeInt(this.category);
+        dest.writeSerializable(this.interests);
+        dest.writeList(this.callArrayList);
+    }
+
+    protected Client(Parcel in) {
+        this.id = in.readString();
+        this.name = in.readString();
+        this.city = in.readString();
+        this.salon = in.readString();
+        this.position = in.readString();
+        this.phoneNumber = in.readString();
+        this.email = in.readString();
+        this.otherInfo = in.readString();
+        this.toDoInfo = in.readString();
+        this.category = in.readInt();
+        this.interests = (HashMap<String, Integer>) in.readSerializable();
+        this.callArrayList = new ArrayList<Call>();
+        in.readList(this.callArrayList, Call.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Client> CREATOR = new Parcelable.Creator<Client>() {
+        @Override
+        public Client createFromParcel(Parcel source) {
+            return new Client(source);
+        }
+
+        @Override
+        public Client[] newArray(int size) {
+            return new Client[size];
+        }
+    };
 }

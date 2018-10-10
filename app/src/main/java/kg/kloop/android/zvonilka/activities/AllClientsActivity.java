@@ -1,26 +1,15 @@
 package kg.kloop.android.zvonilka.activities;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatDialogFragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,11 +18,24 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.appcompat.view.ActionMode;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.selection.OnDragInitiatedListener;
+import androidx.recyclerview.selection.SelectionTracker;
+import androidx.recyclerview.selection.StorageStrategy;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import kg.kloop.android.zvonilka.R;
 import kg.kloop.android.zvonilka.adapters.ClientsRecyclerViewAdapter;
 import kg.kloop.android.zvonilka.fragments.SortingDialogFragment;
+import kg.kloop.android.zvonilka.helpers.ActionModeController;
+import kg.kloop.android.zvonilka.helpers.MyItemKeyProvider;
+import kg.kloop.android.zvonilka.helpers.MyItemLookup;
 import kg.kloop.android.zvonilka.objects.Client;
 
 public class AllClientsActivity extends AppCompatActivity implements SortingDialogFragment.SortingDialogListener {
@@ -45,6 +47,8 @@ public class AllClientsActivity extends AppCompatActivity implements SortingDial
     private ClientsRecyclerViewAdapter adapter;
     private RecyclerView recyclerView;
     private FloatingActionButton floatingActionButton;
+    private SelectionTracker selectionTracker;
+    private ActionMode actionMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +68,39 @@ public class AllClientsActivity extends AppCompatActivity implements SortingDial
         allClientsArrayList = new ArrayList<>();
         getDataFromFirebase();
         adapter = new ClientsRecyclerViewAdapter(this, allClientsArrayList);
-        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        recyclerView.setAdapter(adapter);
+        selectionTracker = new SelectionTracker.Builder<>(
+                "all_clients_selection_id",
+                recyclerView,
+                new MyItemKeyProvider(1, allClientsArrayList),
+                new MyItemLookup(recyclerView),
+                StorageStrategy.createLongStorage()
+        ).withOnDragInitiatedListener(new OnDragInitiatedListener() {
+                    @Override
+                    public boolean onDragInitiated(@NonNull MotionEvent e) {
+                        Log.d(TAG, "onDragInitiated");
+                        return true;
+                    }
+                }).build();
+        selectionTracker.addObserver(new SelectionTracker.SelectionObserver() {
+            @Override
+            public void onSelectionChanged() {
+                super.onSelectionChanged();
+                if (selectionTracker.hasSelection() && actionMode == null) {
+                    actionMode = startSupportActionMode(new ActionModeController(getApplicationContext(), selectionTracker));
+                    actionMode.setTitle(String.valueOf(selectionTracker.getSelection().size()));
+                } else if (!selectionTracker.hasSelection() && actionMode != null) {
+                    actionMode.finish();
+                    actionMode = null;
+                } else {
+                    actionMode.setTitle(String.valueOf(selectionTracker.getSelection().size()));
+                }
+            }
+        });
+
+        adapter.setSelectionTracker(selectionTracker);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

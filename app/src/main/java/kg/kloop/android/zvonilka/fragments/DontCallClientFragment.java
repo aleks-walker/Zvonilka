@@ -2,24 +2,31 @@ package kg.kloop.android.zvonilka.fragments;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.selection.OnDragInitiatedListener;
+import androidx.recyclerview.selection.SelectionTracker;
+import androidx.recyclerview.selection.StorageStrategy;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import kg.kloop.android.zvonilka.R;
 import kg.kloop.android.zvonilka.adapters.ClientsRecyclerViewAdapter;
+import kg.kloop.android.zvonilka.helpers.MyItemKeyProvider;
+import kg.kloop.android.zvonilka.helpers.MyItemLookup;
 import kg.kloop.android.zvonilka.objects.Client;
 
 
@@ -28,6 +35,7 @@ import kg.kloop.android.zvonilka.objects.Client;
  */
 public class DontCallClientFragment extends Fragment {
 
+    private static final String TAG = DontCallClientFragment.class.getSimpleName();
     private RecyclerView dontCallClientsRecyclerView;
     private ArrayList<Client> clientArrayList;
     private ClientsRecyclerViewAdapter adapter;
@@ -61,6 +69,21 @@ public class DontCallClientFragment extends Fragment {
 
         adapter = new ClientsRecyclerViewAdapter(getContext(), clientArrayList);
         dontCallClientsRecyclerView.setAdapter(adapter);
+        SelectionTracker selectionTracker = new SelectionTracker.Builder<>(
+                "dont_call_clients_selection_id",
+                dontCallClientsRecyclerView,
+                new MyItemKeyProvider(1, clientArrayList),
+                new MyItemLookup(dontCallClientsRecyclerView),
+                StorageStrategy.createLongStorage()
+        ).withOnDragInitiatedListener(new OnDragInitiatedListener() {
+            @Override
+            public boolean onDragInitiated(@NonNull MotionEvent e) {
+                Log.d(TAG, "onDragInitiated");
+                return true;
+            }
+        }).build();
+
+        adapter.setSelectionTracker(selectionTracker);
         dontCallClientsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         dontCallClientsRecyclerView.setHasFixedSize(true);
 

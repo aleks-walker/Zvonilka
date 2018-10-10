@@ -2,7 +2,6 @@ package kg.kloop.android.zvonilka.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +11,12 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import androidx.recyclerview.selection.ItemDetailsLookup;
+import androidx.recyclerview.selection.SelectionTracker;
+import androidx.recyclerview.widget.RecyclerView;
 import kg.kloop.android.zvonilka.R;
 import kg.kloop.android.zvonilka.activities.ClientActivity;
+import kg.kloop.android.zvonilka.helpers.MyItemDetails;
 import kg.kloop.android.zvonilka.objects.Client;
 
 /**
@@ -24,9 +27,14 @@ public class ClientsRecyclerViewAdapter extends RecyclerView.Adapter<ClientsRecy
     private static final String TAG = ClientsRecyclerViewAdapter.class.getSimpleName();
     private Context context;
     private ArrayList<Client> clientArrayList;
+    private SelectionTracker selectionTracker;
     public ClientsRecyclerViewAdapter(Context context, ArrayList<Client> clientArrayList) {
         this.context = context;
         this.clientArrayList = clientArrayList;
+    }
+
+    public void setSelectionTracker(SelectionTracker selectionTracker) {
+        this.selectionTracker = selectionTracker;
     }
 
     @Override
@@ -40,6 +48,7 @@ public class ClientsRecyclerViewAdapter extends RecyclerView.Adapter<ClientsRecy
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.nameTextView.setText(clientArrayList.get(position).getName());
+        holder.activate(selectionTracker.isSelected(clientArrayList.get(position)));
     }
 
 
@@ -66,6 +75,17 @@ public class ClientsRecyclerViewAdapter extends RecyclerView.Adapter<ClientsRecy
             intent.putExtra("activity", context.getClass().getSimpleName());
             Log.v(TAG, "source activity: " + context.getClass().getSimpleName());
             context.startActivity(intent);
+        }
+
+        public ItemDetailsLookup.ItemDetails getItemDetails() {
+            return new MyItemDetails(getAdapterPosition(), clientArrayList.get(getAdapterPosition()));
+        }
+
+        public void activate(boolean isActive) {
+            itemView.setActivated(isActive);
+            if (itemView.isActivated()) {
+                itemView.setBackgroundColor(context.getColor(R.color.colorPrimaryDark));
+            } else itemView.setBackgroundColor(context.getColor(android.R.color.transparent));
         }
     }
 }

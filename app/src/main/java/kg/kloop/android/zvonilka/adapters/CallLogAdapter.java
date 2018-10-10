@@ -1,8 +1,6 @@
 package kg.kloop.android.zvonilka.adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-import java.util.zip.Inflater;
 
+import androidx.recyclerview.widget.RecyclerView;
 import kg.kloop.android.zvonilka.R;
 import kg.kloop.android.zvonilka.adapters.CallLogAdapter.ViewHolder;
 import kg.kloop.android.zvonilka.objects.Call;

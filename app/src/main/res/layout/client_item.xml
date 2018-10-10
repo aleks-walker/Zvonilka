@@ -8,7 +8,7 @@
     android:paddingStart="@dimen/tile_padding"
     android:paddingEnd="@dimen/tile_padding"
     android:orientation="horizontal"
-    android:background="?android:attr/selectableItemBackground">
+    android:background="?android:selectableItemBackground">
 
     <TextView
         android:id="@+id/name_text_view"
