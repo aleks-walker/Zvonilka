@@ -89,7 +89,7 @@ public class AllClientsActivity extends AppCompatActivity implements SortingDial
             public void onSelectionChanged() {
                 super.onSelectionChanged();
                 if (selectionTracker.hasSelection() && actionMode == null) {
-                    actionMode = startSupportActionMode(new ActionModeController(getApplicationContext(), selectionTracker));
+                    actionMode = startSupportActionMode(new ActionModeController(getApplicationContext(), selectionTracker, allClientsArrayList));
                     actionMode.setTitle(String.valueOf(selectionTracker.getSelection().size()));
                 } else if (!selectionTracker.hasSelection() && actionMode != null) {
                     actionMode.finish();

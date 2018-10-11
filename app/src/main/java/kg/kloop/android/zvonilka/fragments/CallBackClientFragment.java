@@ -70,21 +70,6 @@ public class CallBackClientFragment extends Fragment {
 
         adapter = new ClientsRecyclerViewAdapter(getContext(), clientArrayList);
         callBackClientsRecyclerView.setAdapter(adapter);
-        SelectionTracker selectionTracker = new SelectionTracker.Builder<>(
-                "call_back_clients_selection_id",
-                callBackClientsRecyclerView,
-                new MyItemKeyProvider(1, clientArrayList),
-                new MyItemLookup(callBackClientsRecyclerView),
-                StorageStrategy.createLongStorage()
-        ).withOnDragInitiatedListener(new OnDragInitiatedListener() {
-            @Override
-            public boolean onDragInitiated(@NonNull MotionEvent e) {
-                Log.d(TAG, "onDragInitiated");
-                return true;
-            }
-        }).build();
-
-        adapter.setSelectionTracker(selectionTracker);
         callBackClientsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         callBackClientsRecyclerView.setHasFixedSize(true);
 

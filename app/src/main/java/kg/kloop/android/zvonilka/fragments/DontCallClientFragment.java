@@ -69,21 +69,6 @@ public class DontCallClientFragment extends Fragment {
 
         adapter = new ClientsRecyclerViewAdapter(getContext(), clientArrayList);
         dontCallClientsRecyclerView.setAdapter(adapter);
-        SelectionTracker selectionTracker = new SelectionTracker.Builder<>(
-                "dont_call_clients_selection_id",
-                dontCallClientsRecyclerView,
-                new MyItemKeyProvider(1, clientArrayList),
-                new MyItemLookup(dontCallClientsRecyclerView),
-                StorageStrategy.createLongStorage()
-        ).withOnDragInitiatedListener(new OnDragInitiatedListener() {
-            @Override
-            public boolean onDragInitiated(@NonNull MotionEvent e) {
-                Log.d(TAG, "onDragInitiated");
-                return true;
-            }
-        }).build();
-
-        adapter.setSelectionTracker(selectionTracker);
         dontCallClientsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         dontCallClientsRecyclerView.setHasFixedSize(true);
 

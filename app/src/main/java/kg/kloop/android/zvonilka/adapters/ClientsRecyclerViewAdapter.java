@@ -48,7 +48,9 @@ public class ClientsRecyclerViewAdapter extends RecyclerView.Adapter<ClientsRecy
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.nameTextView.setText(clientArrayList.get(position).getName());
-        holder.activate(selectionTracker.isSelected(clientArrayList.get(position)));
+        if (selectionTracker != null) {
+            holder.activate(selectionTracker.isSelected(clientArrayList.get(position)));
+        }
     }
 
 
@@ -84,7 +86,7 @@ public class ClientsRecyclerViewAdapter extends RecyclerView.Adapter<ClientsRecy
         public void activate(boolean isActive) {
             itemView.setActivated(isActive);
             if (itemView.isActivated()) {
-                itemView.setBackgroundColor(context.getColor(R.color.colorPrimaryDark));
+                itemView.setBackgroundColor(context.getColor(android.R.color.darker_gray));
             } else itemView.setBackgroundColor(context.getColor(android.R.color.transparent));
         }
     }
