@@ -8,4 +8,10 @@
         android:icon="@drawable/ic_select_all_white_24dp"
         app:showAsAction="ifRoom"/>
 
+    <item
+        android:id="@+id/upload_selected_menu_item"
+        android:title="@string/upload"
+        android:icon="@drawable/ic_publish_white_24dp"
+        app:showAsAction="ifRoom"/>
+
 </menu>

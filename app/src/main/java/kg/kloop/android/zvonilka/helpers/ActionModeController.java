@@ -4,6 +4,9 @@ import android.content.Context;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 import androidx.appcompat.view.ActionMode;
@@ -15,11 +18,22 @@ public class ActionModeController implements ActionMode.Callback {
     private final Context context;
     private final SelectionTracker selectionTracker;
     private final ArrayList<Client> allClientsArrayList;
+    private ArrayList<Client> selectedClients;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
 
     public ActionModeController(Context context, SelectionTracker selectionTracker, ArrayList<Client> allClientsArrayList) {
         this.context = context;
         this.selectionTracker = selectionTracker;
         this.allClientsArrayList = allClientsArrayList;
+        selectedClients = new ArrayList<>();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference()
+                .child("Companies")
+                .child("TestCompany")
+                .child("Campaigns")
+                .child(CampaignInfo.getCurrentCampaignId())
+                .child("Clients");
     }
 
     @Override
@@ -44,6 +58,19 @@ public class ActionModeController implements ActionMode.Callback {
                         selectionTracker.select(client);
                     }
                 }
+                break;
+            case R.id.upload_selected_menu_item:
+                for (Client client : allClientsArrayList) {
+                    if (selectionTracker.isSelected(client)) {
+                        selectedClients.add(client);
+                    } else if (selectedClients.contains(client) && !selectionTracker.isSelected(client)){
+                        selectedClients.remove(client);
+                    }
+                }
+                for (Client client : selectedClients) {
+                    databaseReference.push().setValue(client);
+                }
+                actionMode.finish();
                 break;
         }
         return true;

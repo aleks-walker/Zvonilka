@@ -94,7 +94,7 @@ public class AllClientsActivity extends AppCompatActivity implements SortingDial
                 } else if (!selectionTracker.hasSelection() && actionMode != null) {
                     actionMode.finish();
                     actionMode = null;
-                } else {
+                } else if (actionMode != null) {
                     actionMode.setTitle(String.valueOf(selectionTracker.getSelection().size()));
                 }
             }
