@@ -163,7 +163,7 @@ public class CallResultActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
                 switch (i){
                     case R.id.successful_call_radio_button:
-                        callResult = 0;
+                        callResult = 2; // successful call, so probably no need to call back
                         break;
                     case R.id.call_back_radio_button:
                         callResult = 1;
@@ -188,6 +188,7 @@ public class CallResultActivity extends AppCompatActivity {
             case R.id.add_client_item:
                 saveCallResultToFirebase();
                 setClientCategory();
+                setResult(RESULT_OK);
                 finish();
                 break;
         }

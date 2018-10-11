@@ -35,6 +35,7 @@ public class ClientActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_CALL_CLIENT = 102;
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 103;
     private static final String TAG = ClientActivity.class.getSimpleName();
+    private static final int REQUEST_CODE_CALL_RESULT = 200;
     private TextView nameTextView;
     private TextView cityTextView;
     private TextView todoTextView;
@@ -152,7 +153,10 @@ public class ClientActivity extends AppCompatActivity {
         //if(resultCode == RESULT_OK){
             switch (requestCode){
                 case REQUEST_CODE_CALL_CLIENT:
-                    startActivity(new Intent(ClientActivity.this, CallResultActivity.class));
+                    startActivityForResult(new Intent(ClientActivity.this, CallResultActivity.class), REQUEST_CODE_CALL_RESULT);
+                    break;
+                case REQUEST_CODE_CALL_RESULT:
+                    finish();
                     break;
             }
         //}

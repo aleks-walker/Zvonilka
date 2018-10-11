@@ -68,7 +68,7 @@ public class ActionModeController implements ActionMode.Callback {
                     }
                 }
                 for (Client client : selectedClients) {
-                    databaseReference.push().setValue(client);
+                    databaseReference.child(client.getName()).setValue(client);
                 }
                 actionMode.finish();
                 break;
