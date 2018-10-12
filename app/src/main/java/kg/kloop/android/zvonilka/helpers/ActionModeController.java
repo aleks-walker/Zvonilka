@@ -3,9 +3,13 @@ package kg.kloop.android.zvonilka.helpers;
 import android.content.Context;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -67,8 +71,21 @@ public class ActionModeController implements ActionMode.Callback {
                         selectedClients.remove(client);
                     }
                 }
-                for (Client client : selectedClients) {
-                    databaseReference.child(client.getName()).setValue(client);
+                for (final Client client : selectedClients) {
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (!dataSnapshot.hasChild(client.getName())) {
+                                databaseReference.child(client.getName()).setValue(client);
+                                Toast.makeText(context, "Добавлено", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                 }
                 actionMode.finish();
                 break;
