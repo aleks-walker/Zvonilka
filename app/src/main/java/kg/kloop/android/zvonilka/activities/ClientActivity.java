@@ -43,6 +43,7 @@ public class ClientActivity extends AppCompatActivity {
     private TextView callTextView;
     private LinearLayout callResultLinearLayout;
     private String clientId;
+    private String activityString;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private String currentCampaignId;
@@ -68,17 +69,30 @@ public class ClientActivity extends AppCompatActivity {
         callResultLinearLayout = findViewById(R.id.property_call_results_linear_layout);
         Intent intent = getIntent();
         clientId = intent.getStringExtra("clientId");
+        activityString = intent.getStringExtra("activity");
+
         currentCampaignId = CampaignInfo.getCurrentCampaignId();
         clientPropertiesLinearLayout = (LinearLayout)findViewById(R.id.client_properties_linear_layout);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         String sourceActivity = intent.getStringExtra("activity");
         Log.v(TAG, "source activity: " + sourceActivity);
-        databaseReference = firebaseDatabase.getReference()
-                .child("Companies")
-                .child("TestCompany")
-                .child("Clients")
-                .child(clientId);
+        if (activityString.equals(CampaignActivity.class.getSimpleName())) {
+            databaseReference = firebaseDatabase.getReference()
+                    .child("Companies")
+                    .child("TestCompany")
+                    .child("Campaigns")
+                    .child(currentCampaignId)
+                    .child("Clients")
+                    .child(clientId);
+        } else {
+            databaseReference = firebaseDatabase.getReference()
+                    .child("Companies")
+                    .child("TestCompany")
+                    .child("Clients")
+                    .child(clientId);
+        }
+
         addValueEventListener(databaseReference);
 
         callImageButton.setOnClickListener(new View.OnClickListener() {
