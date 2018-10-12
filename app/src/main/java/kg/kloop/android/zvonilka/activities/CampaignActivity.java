@@ -20,7 +20,6 @@ import kg.kloop.android.zvonilka.objects.Campaign;
 public class CampaignActivity extends AppCompatActivity {
 
     public static final String TAG = "CampaignActivity";
-    private FloatingActionButton addClientFloatingActionButton;
     private String currentCampaignId;
 
     @Override
@@ -40,11 +39,11 @@ public class CampaignActivity extends AppCompatActivity {
 
         CampaignInfo.setCurrentCampaignId(getIntent().getStringExtra("currentCampaignId"));
         currentCampaignId = CampaignInfo.getCurrentCampaignId();
-        addClientFloatingActionButton = (FloatingActionButton)findViewById(R.id.add_client_floating_action_button);
+        FloatingActionButton addClientFloatingActionButton = findViewById(R.id.add_client_floating_action_button);
         addClientFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CampaignActivity.this, AddClientActivity.class);
+                Intent intent = new Intent(CampaignActivity.this, AllClientsActivity.class);
                 intent.putExtra("currentCampaignId", currentCampaignId);
                 startActivity(intent);
             }
