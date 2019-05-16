@@ -6,16 +6,17 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import kg.kloop.android.zvonilka.fragments.CallBackClientFragment;
 import kg.kloop.android.zvonilka.fragments.CallClientFragment;
 import kg.kloop.android.zvonilka.fragments.DontCallClientFragment;
+import kg.kloop.android.zvonilka.fragments.SuccessClientFragment;
 
 /**
  * Created by alexwalker on 12.09.17.
  */
 
-public class CustomFragmetPagerAdapter extends FragmentPagerAdapter {
+public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    String[] tabTitles = {"Call", "Call Back", "Don't call"};
+    String[] tabTitles = {"Call", "Call Back", "Success", "Don't call"};
 
-    public CustomFragmetPagerAdapter(FragmentManager fm) {
+    public CustomFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -27,6 +28,8 @@ public class CustomFragmetPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return new CallBackClientFragment();
             case 2:
+                return new SuccessClientFragment();
+            case 3:
                 return new DontCallClientFragment();
             default:
                 return new CallClientFragment();

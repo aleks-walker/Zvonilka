@@ -22,7 +22,7 @@ public class Client implements Parcelable {
     private String email;
     private String otherInfo;
     private String toDoInfo;
-    private int category;
+    private int category = 3; // no category yet
     private HashMap<String, Integer> interests;
     private ArrayList<Call> callArrayList;
 
@@ -203,4 +203,22 @@ public class Client implements Parcelable {
             return new Client[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", city='" + city + '\'' +
+                ", salon='" + salon + '\'' +
+                ", position='" + position + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", otherInfo='" + otherInfo + '\'' +
+                ", toDoInfo='" + toDoInfo + '\'' +
+                ", category=" + category +
+                ", interests=" + interests +
+                ", callArrayList=" + callArrayList +
+                '}';
+    }
 }

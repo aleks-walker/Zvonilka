@@ -163,7 +163,7 @@ public class CallResultActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
                 switch (i){
                     case R.id.successful_call_radio_button:
-                        callResult = 2; // successful call, so probably no need to call back
+                        callResult = 0; // successful call
                         break;
                     case R.id.call_back_radio_button:
                         callResult = 1;

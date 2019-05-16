@@ -1,6 +1,7 @@
 package kg.kloop.android.zvonilka.adapters;
 
 import android.content.Context;
+import android.provider.CallLog;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +20,12 @@ import kg.kloop.android.zvonilka.objects.Call;
  */
 
 public class CallLogAdapter extends RecyclerView.Adapter<ViewHolder> {
-    Context context;
-    ArrayList<Call> callArrayList;
-    String callType;
-    String callDate;
-    String callDuration;
-    String callResult;
+    private Context context;
+    private ArrayList<Call> callArrayList;
+    private String callType;
+    private String callDate;
+    private String callDuration;
+    private String callResult;
 
     public CallLogAdapter(Context context, ArrayList<Call> callArrayList) {
         this.context = context;
@@ -50,7 +51,7 @@ public class CallLogAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     private void formatData(Call currentCall) {
-        callType = currentCall.getType();
+        callType = decodeCallType(currentCall.getType());
         callDate = String.valueOf(
                         DateUtils.getRelativeTimeSpanString(
                         Long.valueOf(currentCall.getDate()),
@@ -59,16 +60,28 @@ public class CallLogAdapter extends RecyclerView.Adapter<ViewHolder> {
         callDuration = currentCall.getDuration() + " sec";
         switch (currentCall.getCallResult()){
             case 0:
-                callResult = "Successful call";
+                callResult = context.getString(R.string.successful_call);
                 break;
             case 1:
-                callResult = "Call back";
+                callResult = context.getString(R.string.call_back);
                 break;
             case 2:
-                callResult = "Don't call";
+                callResult = context.getString(R.string.dont_call);
                 break;
         }
 
+    }
+
+    private String decodeCallType(String type) {
+        switch (Integer.valueOf(type)) {
+            case CallLog.Calls.INCOMING_TYPE:
+                return context.getString(R.string.incoming_call);
+            case CallLog.Calls.OUTGOING_TYPE:
+                return context.getString(R.string.outgoing_call);
+            case CallLog.Calls.MISSED_TYPE:
+                return context.getString(R.string.missed_call);
+        }
+        return null;
     }
 
     @Override
@@ -76,7 +89,7 @@ public class CallLogAdapter extends RecyclerView.Adapter<ViewHolder> {
         return callArrayList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder{
         TextView clientTextView;
         TextView callTypeTextView;
         TextView callDateTextView;
@@ -84,7 +97,7 @@ public class CallLogAdapter extends RecyclerView.Adapter<ViewHolder> {
         TextView callDescriptionTextView;
         TextView callResultTextView;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             clientTextView = itemView.findViewById(R.id.client_call_log_text_view);
             callTypeTextView = itemView.findViewById(R.id.call_type_text_view);

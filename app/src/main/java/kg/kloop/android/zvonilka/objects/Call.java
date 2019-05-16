@@ -11,7 +11,7 @@ public class Call {
     private String date;
     private String duration;
     private String description;
-    int callResult;
+    private int callResult;
 
     public Call() {
     }

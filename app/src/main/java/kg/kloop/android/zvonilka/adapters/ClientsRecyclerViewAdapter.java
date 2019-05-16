@@ -9,11 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import androidx.recyclerview.selection.ItemDetailsLookup;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+
 import kg.kloop.android.zvonilka.R;
 import kg.kloop.android.zvonilka.activities.ClientActivity;
 import kg.kloop.android.zvonilka.helpers.MyItemDetails;
@@ -63,7 +64,7 @@ public class ClientsRecyclerViewAdapter extends RecyclerView.Adapter<ClientsRecy
         TextView nameTextView;
         ImageView showMoreImageView;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.name_text_view);
             showMoreImageView = itemView.findViewById(R.id.show_more_image_view);
@@ -83,7 +84,7 @@ public class ClientsRecyclerViewAdapter extends RecyclerView.Adapter<ClientsRecy
             return new MyItemDetails(getAdapterPosition(), clientArrayList.get(getAdapterPosition()));
         }
 
-        public void activate(boolean isActive) {
+        void activate(boolean isActive) {
             itemView.setActivated(isActive);
             if (itemView.isActivated()) {
                 itemView.setBackgroundColor(context.getColor(android.R.color.darker_gray));

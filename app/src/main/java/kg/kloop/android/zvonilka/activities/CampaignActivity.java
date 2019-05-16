@@ -13,9 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 import kg.kloop.android.zvonilka.R;
-import kg.kloop.android.zvonilka.adapters.CustomFragmetPagerAdapter;
+import kg.kloop.android.zvonilka.adapters.CustomFragmentPagerAdapter;
 import kg.kloop.android.zvonilka.helpers.CampaignInfo;
-import kg.kloop.android.zvonilka.objects.Campaign;
 
 public class CampaignActivity extends AppCompatActivity {
 
@@ -33,7 +32,7 @@ public class CampaignActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ViewPager viewPager = (ViewPager)findViewById(R.id.view_pager);
-        viewPager.setAdapter(new CustomFragmetPagerAdapter(getSupportFragmentManager()));
+        viewPager.setAdapter(new CustomFragmentPagerAdapter(getSupportFragmentManager()));
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 
